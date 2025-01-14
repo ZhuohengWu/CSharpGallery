@@ -20,4 +20,13 @@
 		<PackageReference Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Repositories\Contracts\" />
+	  <Folder Include="Repositories\Implementations\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BaseLibrary\BaseLibrary.csproj" />
+	</ItemGroup>
+
 </Project>
