@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ServerLibrary.Data;
+using ServerLibrary.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +11,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Setting up db connection
 builder.Services.AddDbContextPool<StaffTrackDb>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StaffTrackAppConnection")
         ?? throw new InvalidOperationException("Database connection string is not found"))
 );
+
+// Register JWT
+builder.Services.Configure<JwtSection>(builder.Configuration.GetSection(nameof(JwtSection)));
 
 
 var app = builder.Build();
