@@ -16,5 +16,13 @@ namespace StaffTrackApp.Server.Controllers
             var result = await accountInterface.CreateAsync(user);
             return Ok(result);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> SignInAsync(Login user)
+        {
+            if (user is null) return BadRequest("Empty Login model");
+            var result = await accountInterface.SignInAsync(user);
+            return Ok(result);
+        }
     }
 }
