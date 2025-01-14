@@ -1,0 +1,8 @@
+# Ignore build folders for all projects
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+
+# Visual Studio working files
+**/.vs/

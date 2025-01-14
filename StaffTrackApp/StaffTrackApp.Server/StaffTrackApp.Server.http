@@ -1,0 +1,6 @@
+@StaffTrackApp.Server_HostAddress = http://localhost:5074
+
+GET {{StaffTrackApp.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
