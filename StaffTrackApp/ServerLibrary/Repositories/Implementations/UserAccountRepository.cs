@@ -32,7 +32,7 @@ public class UserAccountRepository(IOptions<JwtSection> config, StaffTrackDb dbC
         });
 
         // create admin role if none exist
-        var isAdminRole = await dbContext.SystemRoles.FirstOrDefaultAsync(_ => _.Name!.Equals(Constants.Admin));
+        var isAdminRole = await dbContext.SystemRoles.FirstOrDefaultAsync(_ => _.Name!.ToLower() == Constants.Admin.ToLower());
         if (isAdminRole is null)
         {
             var createAdminRole = await AddToDatabase(new SystemRole()
@@ -50,7 +50,7 @@ public class UserAccountRepository(IOptions<JwtSection> config, StaffTrackDb dbC
         }
 
         // create user role 
-        var checkUserRole = await dbContext.SystemRoles.FirstOrDefaultAsync(_ => _.Name!.Equals(Constants.User));
+        var checkUserRole = await dbContext.SystemRoles.FirstOrDefaultAsync(_ => _.Name!.ToLower() == Constants.User.ToLower());
         if (checkUserRole is null)
         {
             var createUserRole = await AddToDatabase(new SystemRole() { Name = Constants.User });
@@ -71,7 +71,7 @@ public class UserAccountRepository(IOptions<JwtSection> config, StaffTrackDb dbC
 
     private async Task<ApplicationUser?> FindUserByEmail(string? email)
     {
-        return await dbContext.ApplicationUsers.FirstOrDefaultAsync(_ => _.Email!.Equals(email, StringComparison.CurrentCultureIgnoreCase));
+        return await dbContext.ApplicationUsers.FirstOrDefaultAsync(u => u.Email!.ToLower() == email!.ToLower());
     }
 
     private async Task<T> AddToDatabase<T>(T model)
