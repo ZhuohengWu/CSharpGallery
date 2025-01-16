@@ -80,14 +80,29 @@ public class UserAccountRepository(IOptions<JwtSection> config, StaffTrackDb dbC
         if (!BCrypt.Net.BCrypt.Verify(user.Password, appUser!.Password))
             return new LoginResponse(false, "Email or Password not valid");
 
-        var getUserRole = await dbContext.UserRoles.FirstOrDefaultAsync(_ => _.UserId == appUser!.Id);
+        var getUserRole = await FindUserRole(appUser.Id);
         if (getUserRole is null) { return new LoginResponse(false, "User role not found"); }
 
-        var getSystemRole = await dbContext.SystemRoles.FirstOrDefaultAsync(_ => _.Id == getUserRole!.RoleId);
+        var getSystemRole = await FindRoleName(getUserRole.RoleId);
         if (getSystemRole is null) { return new LoginResponse(false, "System role not found"); }
 
         string jwtToken = GenerateToken(appUser, getSystemRole!.Name!);
         string refreshToken = GenerateRefreshToken();
+
+        var findUser = await dbContext.RefreshTokenInfos.FirstOrDefaultAsync(_ => _.UserId == appUser.Id);
+        if (findUser is not null)
+        {
+            findUser!.Token = refreshToken;
+            await dbContext.SaveChangesAsync();
+        }
+        else
+        {
+            await AddToDatabase(new RefreshTokenInfo()
+            {
+                Token = refreshToken, UserId = appUser.Id
+            });
+        }
+
         return new LoginResponse(true, "Login Successfully!", jwtToken, refreshToken );
     }
 
@@ -115,10 +130,17 @@ public class UserAccountRepository(IOptions<JwtSection> config, StaffTrackDb dbC
             );
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
+    private async Task<UserRole?> FindUserRole(int userId)
+    {
+        return await dbContext.UserRoles.FirstOrDefaultAsync(_ => _.UserId == userId);
+    }
+    private async Task<SystemRole?> FindRoleName(int roleId)
+    {
+        return await dbContext.SystemRoles.FirstOrDefaultAsync(_ => _.Id == roleId);
+    }
     private async Task<ApplicationUser?> FindUserByEmail(string? email)
     {
-        return await dbContext.ApplicationUsers.FirstOrDefaultAsync(u => u.Email!.ToLower() == email!.ToLower());
+        return await dbContext.ApplicationUsers.FirstOrDefaultAsync(_ => _.Email!.ToLower() == email!.ToLower());
     }
 
     private async Task<T> AddToDatabase<T>(T model)
@@ -126,5 +148,28 @@ public class UserAccountRepository(IOptions<JwtSection> config, StaffTrackDb dbC
         var result = dbContext.Add(model!);
         await dbContext.SaveChangesAsync();
         return (T)result.Entity;
+    }
+
+    public async Task<LoginResponse> RefreshTokenAsync(RefreshToken token)
+    {
+        if (token is null) return new LoginResponse(false, "Refresh token model is empty");
+
+        var findToken = await dbContext.RefreshTokenInfos.FirstOrDefaultAsync(_ => _.Token!.Equals(token.Token));
+        if (findToken is null) return new LoginResponse(false, "Refresh token not found");
+
+        var user = await dbContext.ApplicationUsers.FirstOrDefaultAsync(_ => _.Id == findToken.UserId);
+        if (user is null) return new LoginResponse(false, "Refresh token not generated due to cannot find user");
+    
+        var userRole = await FindUserRole(user.Id);
+        var roleName = await FindRoleName(userRole!.RoleId);
+        string jwtToken = GenerateToken(user, roleName!.Name!);
+        string refreshToken = GenerateRefreshToken();
+
+        var updateRefreshToken = await dbContext.RefreshTokenInfos.FirstOrDefaultAsync(_ => _.UserId!.Equals(user.Id));
+        if (updateRefreshToken is null) return new LoginResponse(false, "Refresh token not generated due to user not logged in");
+
+        updateRefreshToken.Token = refreshToken;
+        await dbContext.SaveChangesAsync();
+        return new LoginResponse(true, "Token refreshed successfully", jwtToken, refreshToken);
     }
 }

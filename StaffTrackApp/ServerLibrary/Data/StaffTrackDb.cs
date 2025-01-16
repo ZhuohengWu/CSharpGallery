@@ -25,5 +25,6 @@ public class StaffTrackDb : DbContext
 
     public DbSet<SystemRole> SystemRoles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<RefreshTokenInfo> RefreshTokenInfos { get; set; }
 
 }

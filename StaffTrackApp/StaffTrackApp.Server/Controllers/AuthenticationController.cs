@@ -24,5 +24,13 @@ namespace StaffTrackApp.Server.Controllers
             var result = await accountInterface.SignInAsync(user);
             return Ok(result);
         }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshTokenAsync(RefreshToken token)
+        {
+            if (token is null) return BadRequest("Empty RefreshToken model");
+            var result = await accountInterface.RefreshTokenAsync(token);
+            return Ok(result);
+        }
     }
 }
