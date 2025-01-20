@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ServerLibrary.Data;
 using ServerLibrary.Helpers;
 using ServerLibrary.Repositories.Contracts;
 using ServerLibrary.Repositories.Implementations;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,16 +16,46 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register JWT
+builder.Services.Configure<JwtSection>(builder.Configuration.GetSection(nameof(JwtSection)));
+var jwtSection = builder.Configuration.GetSection(nameof(JwtSection)).Get<JwtSection>();
+
 // Setting up db connection
 builder.Services.AddDbContextPool<StaffTrackDb>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StaffTrackAppConnection")
         ?? throw new InvalidOperationException("Database connection string is not found"))
 );
 
-builder.Services.AddScoped<IUserAccount, UserAccountRepository>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidateLifetime = true,
+        ValidIssuer = jwtSection!.Issuer,
+        ValidAudience = jwtSection.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection.Key!))
+    };
+});
 
-// Register JWT
-builder.Services.Configure<JwtSection>(builder.Configuration.GetSection(nameof(JwtSection)));
+builder.Services.AddScoped<IUserAccount, UserAccountRepository>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorWasm",
+        builder => builder.WithOrigins("https://localhost:7299", "http://localhost:5298")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+        );
+});
+
+
 
 
 var app = builder.Build();
@@ -35,6 +68,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowBlazorWasm");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
