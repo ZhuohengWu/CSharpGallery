@@ -125,7 +125,7 @@ public class UserAccountRepository(IOptions<JwtSection> config, StaffTrackDb dbC
             issuer: config.Value.Issuer,
             audience: config.Value.Audience,
             claims: userClaims,
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddSeconds(10),
             signingCredentials: credentials
             );
         return new JwtSecurityTokenHandler().WriteToken(token);
