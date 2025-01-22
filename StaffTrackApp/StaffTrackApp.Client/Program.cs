@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using StaffTrackApp.Client;
+using Syncfusion.Blazor;
 using Syncfusion.Blazor.Popups;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -26,5 +27,6 @@ builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddScoped<SfDialogService>();
+builder.Services.AddSyncfusionBlazor();
 
 await builder.Build().RunAsync();

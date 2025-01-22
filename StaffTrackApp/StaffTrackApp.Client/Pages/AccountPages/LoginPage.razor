@@ -1,6 +1,8 @@
 ﻿@using StaffTrackApp.Client.Pages.GeneralPages
+@using Syncfusion.Blazor.Popups
 @page "/identity/account/login"
 @layout AuthenticationLayout
+@inject SfDialogService DialogService
 <div class="container">
     <div class="row">
         <div class="col-lg-4"></div>
@@ -55,12 +57,13 @@
 @code {
     public bool ShowLoadingButton { get; set; } = false;
     Login User = new();
-    async Task HandleLogin()
+    private async Task HandleLogin()
     {
         ShowLoadingButton = true;
         var result = await accountService.SignInAsync(User);
         if (result.Flag)
         {
+            await DisplayDialog(result.Message, "Login Success");
             var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
             await customAuthStateProvider.UpdateAuthenticationState(new UserSession()
             {
@@ -69,7 +72,25 @@
             });
             NavManager.NavigateTo("/", forceLoad: true);
         }
+        else
+        {
+            await DisplayDialog(result.Message, "Alert");
+        }
 
         ShowLoadingButton = false;
+    }
+
+    private async Task DisplayDialog(string content, string title)
+    {
+        var options = new DialogOptions
+            {
+                Width = "400px",
+                Height = "200px",
+                Position = new() {X = "center", Y = "center"},
+                ShowCloseIcon = true,
+                ZIndex = 1000 // Ensures it appears on top
+            };
+
+        await DialogService.AlertAsync(content, title);
     }
 }
