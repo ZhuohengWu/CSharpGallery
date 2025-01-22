@@ -67,6 +67,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.Lifetime.ApplicationStopping.Register(() =>
+{
+    Console.WriteLine("Application is stopping...");
+});
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowBlazorWasm");
