@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BaseLibrary.Entities;
 
-public class Town : BaseEntity
+public class OvertimeType : BaseEntity
 {
-    public List<Employee>? Employees { get; set; }
-    public City? City { get; set; }
-    public int CityId { get; set; }
+    public List<Overtime>? Overtimes { get; set; }
+
 }

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseLibrary.DTOs;
+namespace BaseLibrary.Entities;
 
-public class GeneralDepartmentDto : BaseDepartmentDto
+public class VacationType : BaseEntity
 {
+    List<Vacation>? Vacations { get; set; }
 }
