@@ -38,7 +38,7 @@ builder.Services.AddScoped<IGenericService<Country>, GenericService<Country>>();
 builder.Services.AddScoped<IGenericService<City>, GenericService<City>>();
 builder.Services.AddScoped<IGenericService<Town>, GenericService<Town>>();
 
-builder.Services.AddScoped<DepartmentState>();
+builder.Services.AddScoped<AllState>();
 
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF5cXmBCfEx3WmFZfVtgfF9GZFZVQ2YuP1ZhSXxWdkRhXH9WcHBRQWRfWEw=");
 builder.Services.AddScoped<SfDialogService>();

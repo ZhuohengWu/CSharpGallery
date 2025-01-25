@@ -1,8 +1,5 @@
-﻿@using StaffTrackApp.Client.Pages.GeneralPages
-@using Syncfusion.Blazor.Popups
-@page "/identity/account/register"
+﻿@page "/identity/account/register"
 @layout AuthenticationLayout
-@inject SfDialogService DialogService
 <div class="container">
     <div class="row">
         <div class="col-lg-4"></div>
@@ -100,7 +97,7 @@
                 ZIndex = 1000 // Ensures it appears on top
             };
 
-        await DialogService.AlertAsync(content, title);
+        await dialogService.AlertAsync(content, title);
     }
 
     private async Task CheckUserAuthentication()
