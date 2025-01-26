@@ -19,16 +19,19 @@ public class BranchRepository(StaffTrackDb dbContext) : IGenericRepository<Branc
 
     public async Task<GeneralResponse> DeleteById(int id)
     {
-        var dep = await dbContext.Branches.FindAsync(id);
-        if (dep is null) return NotFound();
+        var dbItem = await dbContext.Branches.FindAsync(id);
+        if (dbItem is null) return NotFound();
 
-        dbContext.Branches.Remove(dep);
+        dbContext.Branches.Remove(dbItem);
         await Commit();
         return Success();
     }
 
     public async Task<List<Branch>> GetAll()
-    => await dbContext.Branches.ToListAsync();
+    => await dbContext
+        .Branches
+        .AsNoTracking().Include(d => d.Department)
+        .ToListAsync();
 
     public async Task<Branch> GetById(int id)
     => await dbContext.Branches.FindAsync(id) ?? new();
@@ -44,10 +47,11 @@ public class BranchRepository(StaffTrackDb dbContext) : IGenericRepository<Branc
 
     public async Task<GeneralResponse> Update(Branch item)
     {
-        var dep = await dbContext.Branches.FindAsync(item.Id);
-        if (dep is null) return NotFound();
+        var dbItem = await dbContext.Branches.FindAsync(item.Id);
+        if (dbItem is null) return NotFound();
 
-        dep.Name = item.Name;
+        dbItem.Name = item.Name;
+        dbItem.DepartmentId = item.DepartmentId;
         await Commit();
         return Success();
     }

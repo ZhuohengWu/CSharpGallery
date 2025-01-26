@@ -14,9 +14,9 @@ namespace ServerLibrary.Repositories.Implementations;
 
 public class GeneralDepartmentRepository(StaffTrackDb dbContext) : IGenericRepository<GeneralDepartment>
 {
-    public static GeneralResponse Success() => new(true, "Department process complete");
-    public static GeneralResponse NotFound() => new(false, "Department not found");
-    public static GeneralResponse AlreadyAdded() => new(false, "Department already added");
+    public static GeneralResponse Success() => new(true, "Success operation for General Department");
+    public static GeneralResponse NotFound() => new(false, "General Department not found");
+    public static GeneralResponse AlreadyAdded() => new(false, "General Department already added");
    
     public async Task<GeneralResponse> DeleteById(int id)
     {

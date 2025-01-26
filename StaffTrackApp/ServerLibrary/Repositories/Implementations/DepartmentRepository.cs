@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Intrinsics.Arm;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,7 +30,10 @@ public class DepartmentRepository(StaffTrackDb dbContext) : IGenericRepository<D
     }
 
     public async Task<List<Department>> GetAll()
-    => await dbContext.Departments.ToListAsync();
+    => await dbContext
+        .Departments
+        .AsNoTracking().Include(d => d.GeneralDepartment)
+        .ToListAsync();
 
     public async Task<Department> GetById(int id)
     => await dbContext.Departments.FindAsync(id) ?? new();
@@ -49,6 +53,7 @@ public class DepartmentRepository(StaffTrackDb dbContext) : IGenericRepository<D
         if (dep is null) return NotFound();
 
         dep.Name = item.Name;
+        dep.GeneralDepartmentId = item.GeneralDepartmentId;
         await Commit();
         return Success();
     }

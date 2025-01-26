@@ -1,12 +1,12 @@
 ﻿@implements IDisposable
-@if (allState.ShowGeneralDepartment)
+@if (allState.ShowDepartment)
 {
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="float-start">General Department</h4>
+                        <h4 class="float-start">Department</h4>
                         <button class="btn btn-outline-success float-end" @onclick="AddClicked">
                             <i class="bi bi-plus-circle-dotted">Add Department</i>
                         </button>
@@ -19,18 +19,20 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Id</th>
                                         <th scope="col">General Department</th>
+                                        <th scope="col">Department</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (generalDepartment is not null)
+                                    @if (department is not null)
                                     {
                                         int count = 1;
-                                        foreach (var item in generalDepartments)
+                                        foreach (var item in departments)
                                         {
                                             <tr>
                                                 <th scope="row">@count</th>
                                                 <td>@item.Id</td>
+                                                <td>@item.GeneralDepartment!.Name</td>
                                                 <td>@item.Name</td>
                                                 <td>
                                                     <i class="bi bi-pencil text-info" id="cursorStyle" style="margin-right:10px" @onclick="()=>EditClicked(item)"></i>
@@ -45,7 +47,7 @@
                                         <tr>
                                             <td colspan="4">
                                                 <div class="alert alert-info text-center">
-                                                    No General Department added yet!
+                                                    No Department added yet!
                                                 </div>
                                             </td>
                                         </tr>
@@ -66,18 +68,21 @@
     }
 </style>
 
-<GeneralDepartmentDialog @ref="generalDepartmentDialog"
+<DepartmentDialog @ref="departmentDialog"
                          HandleSaveOperationEvent="handleSaveOperationEvent"
-                         GeneralDepartment="generalDepartment" />
+                         Department="department"
+                         GeneralDepartments="generalDepartments" />
 @code {
-    GeneralDepartmentDialog? generalDepartmentDialog;
-    GeneralDepartment generalDepartment = new();
-
+    DepartmentDialog? departmentDialog;
+    Department department = new();
     List<GeneralDepartment> generalDepartments { get; set; } = new();
+
+    List<Department> departments { get; set; } = new();
     string title { get; set; } = "Add";
 
     protected override async void OnInitialized()
     {
+        await GetDepartments();
         await GetGeneralDepartments();
         allState.Action += StateHasChanged;
     }
@@ -89,60 +94,63 @@
 
     private void OpenDialog()
     {
-        generalDepartmentDialog?.OpenDialog();
+        departmentDialog?.OpenDialog();
     }
-
+    private async Task GetDepartments()
+    {
+        departments = await departmentService.GetAll(Constants.DepartmentBaseUrl);
+    }
     private async Task GetGeneralDepartments()
     {
         generalDepartments = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
-        StateHasChanged();
+        //StateHasChanged();
     }
 
-    private async Task handleSaveOperationEvent(GeneralDepartment generalDep)
+    private async Task handleSaveOperationEvent(Department dep)
     {
         bool successCk = false;
-        if (generalDep.Id > 0)
+        if (dep.Id > 0)
         {
-            var result = await generalDepartmentService.Update(generalDep, Constants.GeneralDepartmentBaseUrl);
+            var result = await departmentService.Update(dep, Constants.DepartmentBaseUrl);
             successCk = await DisplayMessage(result.Flag, result.Message);
         }
         else
         {
-            var result = await generalDepartmentService.Insert(generalDep, Constants.GeneralDepartmentBaseUrl);
+            var result = await departmentService.Insert(dep, Constants.DepartmentBaseUrl);
             successCk = await DisplayMessage(result.Flag, result.Message);
         }
 
         if (successCk)
         {
-            generalDepartment = new();
-            await GetGeneralDepartments();
-            generalDepartmentDialog?.ChangeTitle("Add");
+            department = new();
+            await GetDepartments();
+            departmentDialog?.ChangeTitle("Add");
         }
     }
 
     private void AddClicked()
     {
-        generalDepartmentDialog?.ChangeTitle("Add");
-        generalDepartment = new();
+        departmentDialog?.ChangeTitle("Add");
+        department = new();
         OpenDialog();
     }
 
-    private void EditClicked(GeneralDepartment generalDep)
+    private void EditClicked(Department dep)
     {
-        generalDepartmentDialog?.ChangeTitle("Update");
-        generalDepartment = generalDep;
+        departmentDialog?.ChangeTitle("Update");
+        department = dep;
         OpenDialog();
     }
 
-    private async void DeleteClicked(GeneralDepartment generalDep)
+    private async void DeleteClicked(Department dep)
     {
-        bool confirm = await dialogService.ConfirmAsync($"Are you sure to delete {generalDep.Name}", "Confirm Delete");
+        bool confirm = await dialogService.ConfirmAsync($"Are you sure to delete {dep.Name}", "Confirm Delete");
         if (!confirm) return;
 
-        var result = await generalDepartmentService.DeleteById(generalDep.Id, Constants.GeneralDepartmentBaseUrl);
-        
+        var result = await departmentService.DeleteById(dep.Id, Constants.DepartmentBaseUrl);
+
         if (await DisplayMessage(result.Flag, result.Message))
-            await GetGeneralDepartments();
+            await GetDepartments();
     }
 
     private async Task<bool> DisplayMessage(bool flag, string message)

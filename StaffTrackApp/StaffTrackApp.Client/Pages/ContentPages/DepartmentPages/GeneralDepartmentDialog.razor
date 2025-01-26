@@ -2,14 +2,14 @@
     <DialogEvents OnOpen="OpenDialog" />
 
     <DialogTemplates>
-        <Header>Add Department</Header>
+        <Header> @title Department</Header>
         <Content>
-            <EditForm Model="Department" Enhance OnSubmit="Save">
+            <EditForm Model="GeneralDepartment" Enhance OnSubmit="Save">
                 <div class="card border-success">
                     <div class="card-body">
                         <div class="mt-3">
                             <label class="form-label">Name</label>
-                            <InputText @bind-Value="Department.Name" class="form-control" />
+                            <InputText @bind-Value="GeneralDepartment.Name" class="form-control" />
                         </div>
                     </div>
                 </div>
@@ -23,22 +23,34 @@
 </SfDialog>
 
 @code {
-        [Parameter] 
-        public GeneralDepartment Department { get; set; } = new();
+    [Parameter] 
+    public GeneralDepartment GeneralDepartment { get; set; } = new();
+    [Parameter]
+    public EventCallback<GeneralDepartment> HandleSaveOperationEvent { get; set; }
 
-        private bool IsVisible { get; set; } = false;
+    private bool IsVisible { get; set; } = false;
+    private string title { get; set; } = "Add";
 
-        public void OpenDialog()
+    public void OpenDialog()
+    {
+        IsVisible = true;
+        StateHasChanged();
+    }
+
+    private async void Save()
+    {
+        if (string.IsNullOrEmpty(GeneralDepartment.Name))
         {
-            IsVisible = true;
-            StateHasChanged();
+            await dialogService.AlertAsync("Please provide department name", "Alert");
         }
-
-        private async void Save()
+        else
         {
-            if (string.IsNullOrEmpty(Department.Name))
-            {
-                await dialogService.AlertAsync("Please provide department name", "Alert");
-            }
+            await HandleSaveOperationEvent.InvokeAsync(GeneralDepartment);
         }
+    }
+
+    public void ChangeTitle(string title)
+    {
+        this.title = title;
+    }
 }
