@@ -1,4 +1,5 @@
 ﻿using BaseLibrary.DTOs;
+using BaseLibrary.Entities;
 using BaseLibrary.Responses;
 using ClientLibrary.Helpers;
 using ClientLibrary.Services.Contracts;
@@ -38,10 +39,40 @@ public class UserAccountService(GetHttpClient getHttpClient) : IUserAccountServi
         return (await result.Content.ReadFromJsonAsync<LoginResponse>())!;
     }
 
-    public async Task<WeatherForecast[]> GetWeatherForecasts()
+    //public async Task<WeatherForecast[]> GetWeatherForecasts()
+    //{
+    //    var httpClient = await getHttpClient.GetPrivateHttpClient();
+    //    var result = await httpClient.GetFromJsonAsync<WeatherForecast[]>($"api/weatherforecast");
+    //    return result!;
+    //}
+
+    public async Task<List<ManageUser>> GetUsersAsync()
     {
         var httpClient = await getHttpClient.GetPrivateHttpClient();
-        var result = await httpClient.GetFromJsonAsync<WeatherForecast[]>($"api/weatherforecast");
+        var result = await httpClient.GetFromJsonAsync<List<ManageUser>>($"{AuthUrl}/users"); 
         return result!;
+    }
+
+    public async Task<GeneralResponse> UpdateUserAsync(ManageUser user)
+    {
+        var httpClient = await getHttpClient.GetPrivateHttpClient();
+        var result = await httpClient.PutAsJsonAsync($"{AuthUrl}/update-user", user);
+        if (!result.IsSuccessStatusCode) return new GeneralResponse(false, "Error during update user");
+        return (await result.Content.ReadFromJsonAsync<GeneralResponse>())!;
+    }
+
+    public async Task<List<SystemRole>> GetRolesAsync()
+    {
+        var httpClient = await getHttpClient.GetPrivateHttpClient();
+        var result = await httpClient.GetFromJsonAsync<List<SystemRole>>($"{AuthUrl}/role");
+        return result!;
+    }
+
+    public async Task<GeneralResponse> DeleteUserAsync(int id)
+    {
+        var httpClient = await getHttpClient.GetPrivateHttpClient();
+        var result = await httpClient.DeleteAsync($"{AuthUrl}/delete-user/{id}");
+        if (!result.IsSuccessStatusCode) return new GeneralResponse(false, "Error delete user");
+        return (await result.Content.ReadFromJsonAsync<GeneralResponse>())!;
     }
 }

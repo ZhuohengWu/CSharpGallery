@@ -1,4 +1,5 @@
 ﻿using BaseLibrary.DTOs;
+using BaseLibrary.Entities;
 using BaseLibrary.Responses;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,9 @@ public interface IUserAccountService
     Task<LoginResponse> SignInAsync(Login user);
     Task<LoginResponse> RefreshTokenAsync(RefreshToken token);
 
-    Task<WeatherForecast[]> GetWeatherForecasts(); 
+    //Task<WeatherForecast[]> GetWeatherForecasts(); 
+    Task<List<ManageUser>> GetUsersAsync();
+    Task<GeneralResponse> UpdateUserAsync(ManageUser user);
+    Task<List<SystemRole>> GetRolesAsync();
+    Task<GeneralResponse> DeleteUserAsync(int id);
 }

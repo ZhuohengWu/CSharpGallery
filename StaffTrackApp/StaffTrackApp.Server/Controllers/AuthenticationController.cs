@@ -34,5 +34,35 @@ namespace StaffTrackApp.Server.Controllers
             var result = await accountInterface.RefreshTokenAsync(token);
             return Ok(result);
         }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsersAsync()
+        {
+            var result = await accountInterface.GetUsersAsync();
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
+        [HttpPut("update-user")]
+        public async Task<IActionResult> UpdateUserAsync(ManageUser user)
+        {
+            var result = await accountInterface.UpdateUserAsync(user);
+            return Ok(result);
+        }
+
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetRolesAsync()
+        {
+            var result = await accountInterface.GetRolesAsync();
+            if (result is null) return NotFound();
+            return Ok(result);
+        }
+
+        [HttpDelete("delete-users/{id}")]
+        public async Task<IActionResult> DeleteUserAsync(int id)
+        {
+            var result = await accountInterface.DeleteUserAsync(id);
+            return Ok(result);
+        }
     }
 }
