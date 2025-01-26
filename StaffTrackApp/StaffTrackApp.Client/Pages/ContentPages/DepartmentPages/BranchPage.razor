@@ -1,14 +1,14 @@
 ﻿@implements IDisposable
-@if (allState.ShowDepartment)
+@if (allState.ShowBranch)
 {
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="float-start">Department</h4>
+                        <h4 class="float-start">Branches</h4>
                         <button class="btn btn-outline-success float-end" @onclick="AddClicked">
-                            <i class="bi bi-plus-circle-dotted">Add Department</i>
+                            <i class="bi bi-plus-circle-dotted">Add Branch</i>
                         </button>
                     </div>
                     <div class="card-header" style="max-height:580px; overflow-x:hidden; overflow-y:scroll;">
@@ -18,21 +18,21 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Id</th>
-                                        <th scope="col">General Department</th>
                                         <th scope="col">Department</th>
+                                        <th scope="col">Branch</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (department is not null)
+                                    @if (branch is not null)
                                     {
                                         int count = 1;
-                                        foreach (var item in departments)
+                                        foreach (var item in branches)
                                         {
                                             <tr>
                                                 <th scope="row">@count</th>
                                                 <td>@item.Id</td>
-                                                <td>@item.GeneralDepartment!.Name</td>
+                                                <td>@item.Department!.Name</td>
                                                 <td>@item.Name</td>
                                                 <td>
                                                     <i class="bi bi-pencil text-info" id="cursorStyle" style="margin-right:10px" @onclick="()=>EditClicked(item)"></i>
@@ -47,7 +47,7 @@
                                         <tr>
                                             <td colspan="4">
                                                 <div class="alert alert-info text-center">
-                                                    No Department added yet!
+                                                    No Branch added yet!
                                                 </div>
                                             </td>
                                         </tr>
@@ -68,22 +68,22 @@
     }
 </style>
 
-<DepartmentDialog @ref="departmentDialog"
-                         HandleSaveOperationEvent="handleSaveOperationEvent"
-                         Department="department"
-                         GeneralDepartments="generalDepartments" />
+<BranchDialog @ref="branchDialog"
+              HandleSaveOperationEvent="handleSaveOperationEvent"
+              Branch="branch"
+              Departments="departments" />
 @code {
-    DepartmentDialog? departmentDialog;
-    Department department = new();
-    List<GeneralDepartment> generalDepartments { get; set; } = new();
-
+    BranchDialog? branchDialog;
+    Branch branch = new();
     List<Department> departments { get; set; } = new();
+
+    List<Branch> branches { get; set; } = new();
     string title { get; set; } = "Add";
 
     protected override async void OnInitialized()
     {
         await GetDepartments();
-        await GetGeneralDepartments();
+        await GetBranches();
         allState.Action += StateHasChanged;
     }
 
@@ -94,63 +94,63 @@
 
     private void OpenDialog()
     {
-        departmentDialog?.OpenDialog();
+        branchDialog?.OpenDialog();
     }
     private async Task GetDepartments()
     {
         departments = await departmentService.GetAll(Constants.DepartmentBaseUrl);
+    }
+    private async Task GetBranches()
+    {
+        branches = await branchService.GetAll(Constants.BranchBaseUrl);
         StateHasChanged();
     }
-    private async Task GetGeneralDepartments()
-    {
-        generalDepartments = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
-    }
 
-    private async Task handleSaveOperationEvent(Department dep)
+    private async Task handleSaveOperationEvent(Branch item)
     {
         bool successCk = false;
-        if (dep.Id > 0)
+        if (item.Id > 0)
         {
-            var result = await departmentService.Update(dep, Constants.DepartmentBaseUrl);
+            var result = await branchService.Update(item, Constants.BranchBaseUrl);
             successCk = await DisplayMessage(result.Flag, result.Message);
         }
         else
         {
-            var result = await departmentService.Insert(dep, Constants.DepartmentBaseUrl);
+            var result = await branchService.Insert(item, Constants.BranchBaseUrl);
             successCk = await DisplayMessage(result.Flag, result.Message);
         }
 
         if (successCk)
         {
-            department = new();
-            await GetDepartments();
-            departmentDialog?.ChangeTitle("Add");
+            branch = new();
+            await GetBranches();
+            branchDialog?.ChangeTitle("Add");
         }
     }
 
     private void AddClicked()
     {
-        departmentDialog?.ChangeTitle("Add");
-        department = new();
+        branchDialog?.ChangeTitle("Add");
+        branch = new();
         OpenDialog();
     }
 
-    private void EditClicked(Department dep)
+    private void EditClicked(Branch item)
     {
-        departmentDialog?.ChangeTitle("Update");
-        department = dep;
+        branchDialog?.ChangeTitle("Update");
+        branch = item;
         OpenDialog();
     }
 
-    private async void DeleteClicked(Department dep)
+    private async void DeleteClicked(Branch item)
     {
-        bool confirm = await dialogService.ConfirmAsync($"Are you sure to delete {dep.Name}", "Confirm Delete");
+        bool confirm = await dialogService.ConfirmAsync($"Are you sure to delete {item.Name}", "Confirm Delete");
         if (!confirm) return;
 
-        var result = await departmentService.DeleteById(dep.Id, Constants.DepartmentBaseUrl);
+        var result = await branchService.DeleteById(item.Id, Constants.BranchBaseUrl);
 
         if (await DisplayMessage(result.Flag, result.Message))
-            await GetDepartments();
+            await GetBranches();
     }
 
     private async Task<bool> DisplayMessage(bool flag, string message)
