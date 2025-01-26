@@ -19,16 +19,18 @@ public class CityRepository(StaffTrackDb dbContext) : IGenericRepository<City>
 
     public async Task<GeneralResponse> DeleteById(int id)
     {
-        var dep = await dbContext.Citys.FindAsync(id);
-        if (dep is null) return NotFound();
+        var dbItem = await dbContext.Citys.FindAsync(id);
+        if (dbItem is null) return NotFound();
 
-        dbContext.Citys.Remove(dep);
+        dbContext.Citys.Remove(dbItem);
         await Commit();
         return Success();
     }
 
     public async Task<List<City>> GetAll()
-    => await dbContext.Citys.ToListAsync();
+    => await dbContext.Citys
+        .AsNoTracking().Include(c => c.Country)
+        .ToListAsync();
 
     public async Task<City> GetById(int id)
     => await dbContext.Citys.FindAsync(id) ?? new();
@@ -44,10 +46,11 @@ public class CityRepository(StaffTrackDb dbContext) : IGenericRepository<City>
 
     public async Task<GeneralResponse> Update(City item)
     {
-        var dep = await dbContext.Citys.FindAsync(item.Id);
-        if (dep is null) return NotFound();
+        var dbItem = await dbContext.Citys.FindAsync(item.Id);
+        if (dbItem is null) return NotFound();
 
-        dep.Name = item.Name;
+        dbItem.Name = item.Name;
+        dbItem.CountryId = item.CountryId;
         await Commit();
         return Success();
     }

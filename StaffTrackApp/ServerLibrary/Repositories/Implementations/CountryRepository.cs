@@ -19,10 +19,10 @@ public class CountryRepository(StaffTrackDb dbContext) : IGenericRepository<Coun
 
     public async Task<GeneralResponse> DeleteById(int id)
     {
-        var dep = await dbContext.Countrys.FindAsync(id);
-        if (dep is null) return NotFound();
+        var dbItem = await dbContext.Countrys.FindAsync(id);
+        if (dbItem is null) return NotFound();
 
-        dbContext.Countrys.Remove(dep);
+        dbContext.Countrys.Remove(dbItem);
         await Commit();
         return Success();
     }
@@ -44,10 +44,10 @@ public class CountryRepository(StaffTrackDb dbContext) : IGenericRepository<Coun
 
     public async Task<GeneralResponse> Update(Country item)
     {
-        var dep = await dbContext.Countrys.FindAsync(item.Id);
-        if (dep is null) return NotFound();
+        var dbItem = await dbContext.Countrys.FindAsync(item.Id);
+        if (dbItem is null) return NotFound();
 
-        dep.Name = item.Name;
+        dbItem.Name = item.Name;
         await Commit();
         return Success();
     }

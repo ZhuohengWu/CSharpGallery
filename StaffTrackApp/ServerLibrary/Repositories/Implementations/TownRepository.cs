@@ -15,27 +15,29 @@ public class TownRepository(StaffTrackDb dbContext) : IGenericRepository<Town>
 {
     public static GeneralResponse Success() => new(true, "Town process complete");
     public static GeneralResponse NotFound() => new(false, "Town not found");
-    public static GeneralResponse AlreadyAdded() => new(false, "Town already added");
+    public static GeneralResponse AlreadyAdded(string name) => new(false, $"{name} already added");
 
     public async Task<GeneralResponse> DeleteById(int id)
     {
-        var dep = await dbContext.Towns.FindAsync(id);
-        if (dep is null) return NotFound();
+        var dbItem = await dbContext.Towns.FindAsync(id);
+        if (dbItem is null) return NotFound();
 
-        dbContext.Towns.Remove(dep);
+        dbContext.Towns.Remove(dbItem);
         await Commit();
         return Success();
     }
 
     public async Task<List<Town>> GetAll()
-    => await dbContext.Towns.ToListAsync();
+    => await dbContext.Towns
+        .AsNoTracking().Include(t => t.City)
+        .ToListAsync();
 
     public async Task<Town> GetById(int id)
     => await dbContext.Towns.FindAsync(id) ?? new();
 
     public async Task<GeneralResponse> Insert(Town item)
     {
-        if (await CheckNameExist(item.Name)) return AlreadyAdded();
+        if (await CheckNameExist(item.Name)) return AlreadyAdded(item.Name);
 
         dbContext.Towns.Add(item);
         await Commit();
@@ -44,10 +46,11 @@ public class TownRepository(StaffTrackDb dbContext) : IGenericRepository<Town>
 
     public async Task<GeneralResponse> Update(Town item)
     {
-        var dep = await dbContext.Towns.FindAsync(item.Id);
-        if (dep is null) return NotFound();
+        var dbItem = await dbContext.Towns.FindAsync(item.Id);
+        if (dbItem is null) return NotFound();
 
-        dep.Name = item.Name;
+        dbItem.Name = item.Name;
+        dbItem.CityId = item.CityId;
         await Commit();
         return Success();
     }
