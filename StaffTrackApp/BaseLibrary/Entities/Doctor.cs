@@ -10,6 +10,6 @@ namespace BaseLibrary.Entities;
 public class Doctor : RecordBaseEntity
 {
     [Required] public DateTime Date { get; set; }
-    [Required] public string Diagnose { get; set; }
-    [Required] public string Recommondation { get; set; }
+    [Required] public string Diagnose { get; set; } = string.Empty;
+    [Required] public string Recommondation { get; set; } = string.Empty;
 }
