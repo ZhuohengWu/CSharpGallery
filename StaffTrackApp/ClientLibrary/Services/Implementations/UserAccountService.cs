@@ -54,7 +54,7 @@ public class UserAccountService(GetHttpClient getHttpClient) : IUserAccountServi
     }
 
     public async Task<GeneralResponse> UpdateUserAsync(ManageUser user)
-    {
+    {//
         var httpClient = await getHttpClient.GetPrivateHttpClient();
         var result = await httpClient.PutAsJsonAsync($"{AuthUrl}/update-user", user);
         if (!result.IsSuccessStatusCode) return new GeneralResponse(false, "Error during update user");
@@ -64,7 +64,7 @@ public class UserAccountService(GetHttpClient getHttpClient) : IUserAccountServi
     public async Task<List<SystemRole>> GetRolesAsync()
     {
         var httpClient = await getHttpClient.GetPrivateHttpClient();
-        var result = await httpClient.GetFromJsonAsync<List<SystemRole>>($"{AuthUrl}/role");
+        var result = await httpClient.GetFromJsonAsync<List<SystemRole>>($"{AuthUrl}/roles");
         return result!;
     }
 

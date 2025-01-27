@@ -40,7 +40,7 @@ builder.Services.AddScoped<IGenericService<Town>, GenericService<Town>>();
 
 builder.Services.AddScoped<AllState>();
 
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF5cXmBCfEx3WmFZfVtgfF9GZFZVQ2YuP1ZhSXxWdkRhXH9WcHBRQWRfWEw=");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWX5cd3RSRWVeWEdxWko=");
 builder.Services.AddScoped<SfDialogService>();
 builder.Services.AddSyncfusionBlazor();
 
