@@ -30,8 +30,8 @@
                                     <GridColumn Field=@nameof(Employee.Name) HeaderText="Name"></GridColumn>
                                     <GridColumn Field=@nameof(Employee.PhoneNumber) HeaderText="Telephone"></GridColumn>
                                     <GridColumn Field=@nameof(Employee.JobName) HeaderText="Job Name"></GridColumn>
-                                    <GridColumn Field=@nameof(Employee.Branch.Name) HeaderText="Branch"></GridColumn>
-                                    <GridColumn Field=@nameof(Employee.Town.Name) HeaderText="Town"></GridColumn>
+                                    <GridColumn Field="Branch.Name" HeaderText="Branch"></GridColumn>
+                                    <GridColumn Field="Town.Name" HeaderText="Town"></GridColumn>
                                 </GridColumns>
                             </SfGrid>
                         </div>
@@ -45,15 +45,89 @@
     }
 }
 
-<AddOrUpdateEmployeePage ShowAddOrUpdateEmployee="ShowAddOrUpdatePage" />
+<AddOrUpdateEmployeePage @ref="addOrUpdateEmployee"
+    ShowAddOrUpdateEmployee="ShowAddOrUpdatePage" 
+    Employee="Employee"
+    NotifyParentFormClosedClicked="NotifyParentFormClosedClicked"
+    Countries="DefaultCountries" Cities="SelectedCities" Towns="SelectedTowns"
+    GeneralDepartments="DefaultGeneralDepartments" Departments="SelectedDepartments" Branches="SelectedBranches"
+    HandleCountrySelectedEvent="HandleCountrySelectedEvent"
+    HandleCitySelectedEvent="HandleCitySelectedEvent"
+    HandleGeneralDepartmentSelectedEvent="HandleGeneralDepartmentSelectedEvent"
+    HandleDepartmentSelectedEvent="HandleDepartmentSelectedEvent"
+    HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent" />
 
 @code {
-    public List<Employee> Employees { get; set; } = new();
+    public Employee Employee { get; set; } = new();
+    public List<Country> DefaultCountries { get; set; } = [];
+    public List<City> DefaultCities { get; set; } = [];
+    public List<Town> DefaultTowns { get; set; } = [];
+
+    public List<GeneralDepartment> DefaultGeneralDepartments { get; set; } = [];
+    public List<Department> DefaultDepartments { get; set; } = [];
+    public List<Branch> DefaultBranches { get; set; } = [];
+
+    public List<City> SelectedCities { get; set; } = [];
+    public List<Town> SelectedTowns { get; set; } = [];
+
+    public List<Department> SelectedDepartments { get; set; } = [];
+    public List<Branch> SelectedBranches { get; set; } = [];
+
+    AddOrUpdateEmployeePage? addOrUpdateEmployee;
+
+    public List<Employee> Employees { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
         allState.Action += StateHasChanged;
-        //await LoadDefaults();
+        await LoadDefaults();
+        await LoadEmployees();
+    }
+
+    private async Task LoadDefaults()
+    {
+        DefaultCountries = await countryService.GetAll(Constants.CountryBaseUrl);
+        DefaultCities = await cityService.GetAll(Constants.CityBaseUrl);
+        DefaultTowns = await townService.GetAll(Constants.TownBaseUrl);
+
+        DefaultGeneralDepartments = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
+        DefaultDepartments = await departmentService.GetAll(Constants.DepartmentBaseUrl);
+        DefaultBranches = await branchService.GetAll(Constants.BranchBaseUrl);
+    }
+
+    private void HandleCountrySelectedEvent(int countryId)
+    => SelectedCities = DefaultCities.Where(_ => _.CountryId == countryId).ToList();
+
+    private void HandleCitySelectedEvent(int cityId)
+    => SelectedTowns = DefaultTowns.Where(_ => _.CityId == cityId).ToList();
+
+    private void HandleGeneralDepartmentSelectedEvent(int generalDepartmentId)
+    => SelectedDepartments = DefaultDepartments.Where(_ => _.GeneralDepartmentId == generalDepartmentId).ToList();
+
+    private void HandleDepartmentSelectedEvent(int departmentId)
+    => SelectedBranches = DefaultBranches.Where(_ => _.DepartmentId == departmentId).ToList();
+
+    private async Task HandleSaveEmployeeClickedEvent(Employee employee)
+    {
+        bool successCk = false;
+        if (employee.Id > 0)
+        {
+            var result = await employeeService.Update(employee, Constants.EmployeeBaseUrl);
+            successCk = await DisplayMessage(result.Flag, result.Message);
+        }
+        else
+        {
+            var result = await employeeService.Insert(employee, Constants.EmployeeBaseUrl);
+            successCk = await DisplayMessage(result.Flag, result.Message);
+        }
+
+        if (successCk) addOrUpdateEmployee!.ClearContent();
+    }
+
+    private async Task NotifyParentFormClosedClicked()
+    {
+        ShowMainPage = true;
+        ShowAddOrUpdatePage = false;
         await LoadEmployees();
     }
 
@@ -70,7 +144,19 @@
         ShowAddOrUpdatePage = true;
     }
 
-
+    private async Task<bool> DisplayMessage(bool flag, string message)
+    {
+        if (flag)
+        {
+            await dialogService.AlertAsync(message, "Operation Success");
+            return true;
+        }
+        else
+        {
+            await dialogService.AlertAsync(message, "Alert");
+            return false;
+        }
+    }
 
     public void Dispose() => allState.Action -= StateHasChanged;
 }
