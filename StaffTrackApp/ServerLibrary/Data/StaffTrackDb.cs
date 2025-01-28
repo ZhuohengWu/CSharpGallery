@@ -32,13 +32,59 @@ public class StaffTrackDb : DbContext
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<RefreshTokenInfo> RefreshTokenInfos { get; set; }
 
-
     public DbSet<Vacation> Vacations { get; set; }
     public DbSet<VacationType> VacationTypes { get; set; }
     public DbSet<Overtime> Overtimes { get; set; }
     public DbSet<OvertimeType> OvertimesTypes { get; set; }
-    public DbSet<Sanction> Sanctions { get; set;}
+    public DbSet<Sanction> Sanctions { get; set; }
     public DbSet<SanctionType> SanctionTypes { get; set; }
     public DbSet<Doctor> Doctors { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Country -> City
+        modelBuilder.Entity<City>()
+            .HasOne(c => c.Country)
+            .WithMany(co => co.Cities)
+            .HasForeignKey(c => c.CountryId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // City -> Town
+        modelBuilder.Entity<Town>()
+            .HasOne(t => t.City)
+            .WithMany(c => c.Towns)
+            .HasForeignKey(t => t.CityId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Town -> Employee
+        modelBuilder.Entity<Employee>()
+            .HasOne(e => e.Town)
+            .WithMany(t => t.Employees)
+            .HasForeignKey(e => e.TownId)
+            .OnDelete(DeleteBehavior.SetNull); // when town deleted,set TownId in Employee to null
+             
+
+        // Branch -> Department
+        modelBuilder.Entity<Branch>()
+            .HasOne(b => b.Department)
+            .WithMany(d => d.Branches)
+            .HasForeignKey(b => b.DepartmentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Department -> General Department
+        modelBuilder.Entity<Department>()
+            .HasOne(d => d.GeneralDepartment)
+            .WithMany(g => g.Departments)
+            .HasForeignKey(d => d.GeneralDepartmentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Employee -> Branch
+        modelBuilder.Entity<Employee>()
+            .HasOne(e => e.Branch)
+            .WithMany(b => b.Employees)
+            .HasForeignKey(e => e.BranchId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }

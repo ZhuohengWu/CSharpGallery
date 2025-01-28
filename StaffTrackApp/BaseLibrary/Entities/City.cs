@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BaseLibrary.Entities;
 
-public class City:BaseEntity
+public class City: BaseEntity
 {
     public int CountryId { get; set; }
     public Country? Country { get; set; }

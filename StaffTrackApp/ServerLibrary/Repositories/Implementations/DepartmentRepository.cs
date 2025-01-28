@@ -30,10 +30,13 @@ public class DepartmentRepository(StaffTrackDb dbContext) : IGenericRepository<D
     }
 
     public async Task<List<Department>> GetAll()
-    => await dbContext
+    {
+        var deps = await dbContext
         .Departments
         .AsNoTracking().Include(d => d.GeneralDepartment)
         .ToListAsync();
+        return deps;
+    }
 
     public async Task<Department> GetById(int id)
     => await dbContext.Departments.FindAsync(id) ?? new();
