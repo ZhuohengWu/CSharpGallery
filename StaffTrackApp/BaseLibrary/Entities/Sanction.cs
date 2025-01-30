@@ -17,4 +17,5 @@ public class Sanction : RecordBaseEntity
     public DateTime PunishmentDate { get; set; }
 
     public SanctionType? SanctionType { get; set; }
+    public int SanctionTypeId { get; set; }
 }

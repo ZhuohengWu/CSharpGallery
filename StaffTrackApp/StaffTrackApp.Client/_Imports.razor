@@ -15,14 +15,20 @@
 @using StaffTrackApp.Client.Pages.ContentPages.LocationPages
 @using StaffTrackApp.Client.Pages.ContentPages.UserPages
 @using StaffTrackApp.Client.Pages.ContentPages.EmployeePages
+@using StaffTrackApp.Client.Pages.ContentPages.DoctorPages
+@using StaffTrackApp.Client.Pages.ContentPages.OvertimePages
+@using StaffTrackApp.Client.Pages.ContentPages.SanctionPages
+@using StaffTrackApp.Client.Pages.ContentPages.VacationPages
 
 @using BaseLibrary.DTOs
 @using ClientLibrary.Helpers
 @using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
 @using ClientLibrary.Services.Contracts
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
 
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavManager
@@ -40,3 +46,14 @@
 @inject IGenericService<Town> townService
 
 @inject IGenericService<Employee> employeeService
+
+@inject IGenericService<Doctor> doctorService
+
+@inject IGenericService<Overtime> overtimeService
+@inject IGenericService<OvertimeType> overtimeTypeService
+
+@inject IGenericService<Vacation> vacationService
+@inject IGenericService<VacationType> vacationTypeService
+
+@inject IGenericService<Sanction> sanctionService
+@inject IGenericService<SanctionType> sanctionTypeService

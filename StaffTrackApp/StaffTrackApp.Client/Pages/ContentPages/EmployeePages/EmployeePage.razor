@@ -32,6 +32,16 @@
                                     <GridColumn Field=@nameof(Employee.JobName) HeaderText="Job Name"></GridColumn>
                                     <GridColumn Field="Branch.Name" HeaderText="Branch"></GridColumn>
                                     <GridColumn Field="Town.Name" HeaderText="Town"></GridColumn>
+                                    <GridColumn HeaderText="Menu" HeaderTextAlign="TextAlign.Left" >
+                                        <Template>
+                                            @{
+                                                var employee = (context as Employee);
+                                                <i class="bi bi-menu-down text-primary" id="cursorStyle"
+                                                    @onclick="() => ShowMenuPopUp(employee!)">
+                                                </i>
+                                            }
+                                        </Template>
+                                    </GridColumn>
                                 </GridColumns>
                             </SfGrid>
                         </div>
@@ -56,6 +66,39 @@
     HandleGeneralDepartmentSelectedEvent="HandleGeneralDepartmentSelectedEvent"
     HandleDepartmentSelectedEvent="HandleDepartmentSelectedEvent"
     HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent" />
+
+<ContextMenu @ref="contextMenu"
+             HandleViewClicked="ViewClicked"
+             HandleEditClicked="EditClicked"
+             HandleDeleteClicked="DeleteClicked"
+             HandleAddVacationClicked="AddVacationClicked"
+             HandleAddOvertimeClicked="AddOvertimeClicked"
+             HandleAddHealthClicked="AddHealthClicked"
+             HandleAddSanctionClicked="AddSanctionClicked"
+             />
+
+<EmployeeDetailPage EmployeeDetails="Employee" 
+    ShowDetailsPage="ShowDetailsPage"
+    HandleDetailsPageCloseBtnClicked="HandleDetailsPageCloseBtnClicked" />
+
+<DoctorDialog @ref="doctorDialog" 
+    HandleSaveOperationEvent="SaveHealthEvent"
+    Doctor="doctor"/>
+
+<OvertimeDialog @ref="overtimeDialog"
+    HandleSaveOperationEvent="SaveOvertimeEvent"
+    ItemModel="overtime"
+    OvertimeTypes="overtimeTypes"/>
+
+<SanctionDialog @ref="sanctionDialog" 
+    ItemModel="sanction"
+    SanctionTypes="sanctionTypes"
+    HandleSaveOperationEvent="SaveSanctionEvent" />
+
+<VacationDialog @ref="vacationDialog"
+                ItemModel="vacation"
+                VacationTypes="vacationTypes"
+                HandleSaveOperationEvent="SaveVacationEvent" />
 
 @code {
     public Employee Employee { get; set; } = new();
@@ -129,6 +172,7 @@
         ShowMainPage = true;
         ShowAddOrUpdatePage = false;
         await LoadEmployees();
+        SelectedEmployee = new();
     }
 
     private async Task LoadEmployees()
@@ -142,6 +186,159 @@
     {
         ShowMainPage = false;
         ShowAddOrUpdatePage = true;
+    }
+
+    public Employee SelectedEmployee { get; set; } = new();
+    ContextMenu? contextMenu;
+    private void ShowMenuPopUp(Employee employee)
+    {
+        SelectedEmployee = employee;
+        contextMenu!.OpenContextMenu();
+    }
+    private void EditClicked()
+    {
+        addOrUpdateEmployee!.Employee.Id = SelectedEmployee.Id;
+        addOrUpdateEmployee!.EmployeeGroup1.Name = SelectedEmployee.Name;
+        addOrUpdateEmployee!.EmployeeGroup1.PhoneNumber = SelectedEmployee.PhoneNumber;
+        addOrUpdateEmployee!.EmployeeGroup1.FileNumber = SelectedEmployee.FileNumber;
+        addOrUpdateEmployee!.EmployeeGroup1.Address = SelectedEmployee.Address;
+        addOrUpdateEmployee!.EmployeeGroup1.Photo = SelectedEmployee.Photo;
+        addOrUpdateEmployee!.EmployeeGroup1.CivilId = SelectedEmployee.CivilId;
+
+        addOrUpdateEmployee!.EmployeeGroup2.JobName = SelectedEmployee.JobName;
+        addOrUpdateEmployee!.EmployeeGroup2.Other = SelectedEmployee.Other;
+
+        addOrUpdateEmployee!.GeneralDepartment = SelectedEmployee.Branch!.Department!.GeneralDepartment!.Name;
+        addOrUpdateEmployee!.Department = SelectedEmployee.Branch!.Department!.Name;
+        addOrUpdateEmployee!.Branch = SelectedEmployee.Branch!.Name;
+
+        addOrUpdateEmployee!.Country = SelectedEmployee.Town!.City!.Country!.Name;
+        addOrUpdateEmployee!.City = SelectedEmployee.Town!.City!.Name;
+        addOrUpdateEmployee!.Town = SelectedEmployee.Town!.Name;
+
+        addOrUpdateEmployee.Title = "Update";
+        SelectedEmployee = new();
+        contextMenu!.CloseContextMenu();
+        ShowAddOrUpdatePage = true;
+        ShowMainPage = false;
+    }
+    private async Task DeleteClicked()
+    {
+        contextMenu!.CloseContextMenu();
+        bool confirm = await dialogService.ConfirmAsync($"Are you sure to delete {SelectedEmployee.Name}?", "Confirm Delete");
+        if (!confirm) return;
+
+        var response = await branchService.DeleteById(SelectedEmployee.Id, Constants.EmployeeBaseUrl);
+        var result = await DisplayMessage(response.Flag, response.Message);
+        if (result)
+        {
+            SelectedEmployee = new();
+            await LoadEmployees();
+        }
+    }
+    public bool ShowDetailsPage { get; set; } = false;
+    private void ViewClicked()
+    {
+        Employee = SelectedEmployee;
+        contextMenu!.CloseContextMenu();
+        ShowDetailsPage = true;
+        ShowMainPage = false;
+        SelectedEmployee = new();
+    }
+    private void HandleDetailsPageCloseBtnClicked()
+    {
+        ShowDetailsPage = false;
+        ShowMainPage = true;
+    }
+
+    DoctorDialog? doctorDialog;
+    Doctor doctor = new();
+    private void AddHealthClicked()
+    {
+        doctor.EmployeeId = SelectedEmployee.Id;
+        contextMenu!.CloseContextMenu();
+        doctorDialog!.OpenDialog();
+    }
+
+    private async Task SaveHealthEvent(Doctor item)
+    {
+        item.EmployeeId = SelectedEmployee.Id;
+        var (flag, message) = await doctorService.Insert(item, Constants.DoctorBaseUrl);
+        var response = await DisplayMessage(flag, message);
+        if (response)
+        {
+            SelectedEmployee = new();
+            doctor = new();
+            doctorDialog!.CloseDialog();
+        }
+    }
+    OvertimeDialog? overtimeDialog;
+    Overtime overtime = new();
+    List<OvertimeType> overtimeTypes = [];
+    private void AddOvertimeClicked()
+    {
+        overtime.EmployeeId = SelectedEmployee.Id;
+        contextMenu!.CloseContextMenu();
+        overtimeDialog!.OpenDialog();
+    }
+
+    private async Task SaveOvertimeEvent(Overtime item)
+    {
+        item.EmployeeId = SelectedEmployee.Id;
+        var (flag, message) = await overtimeService.Insert(item, Constants.OvertimeBaseUrl);
+        var response = await DisplayMessage(flag, message);
+        if (response)
+        {
+            SelectedEmployee = new();
+            overtime = new();
+            overtimeDialog!.CloseDialog();
+        }
+    }
+
+    SanctionDialog? sanctionDialog;
+    Sanction sanction = new();
+    List<SanctionType> sanctionTypes = [];
+    private void AddSanctionClicked()
+    {
+        sanction.EmployeeId = SelectedEmployee.Id;
+        contextMenu.CloseContextMenu();
+        sanctionDialog!.OpenDialog();
+    }
+
+    private async Task SaveSanctionEvent(Sanction item)
+    {
+        item.EmployeeId = SelectedEmployee.Id;
+        var (flag, message) = await sanctionService.Insert(item, Constants.SanctionBaseUrl);
+        var response = await DisplayMessage(flag, message);
+        if (response)
+        {
+            SelectedEmployee = new();
+            sanction = new();
+            sanctionDialog!.CloseDialog();
+        }
+    }
+
+    VacationDialog? vacationDialog;
+    Vacation vacation = new();
+    List<VacationType> vacationTypes = [];
+    private void AddVacationClicked()
+    {
+        vacation.EmployeeId = SelectedEmployee.Id;
+        contextMenu!.CloseContextMenu();
+        vacationDialog!.OpenDialog();
+    }
+
+    private async Task SaveVacationEvent(Vacation item)
+    {
+        item.EmployeeId = SelectedEmployee.Id;
+        var (flag, message) = await vacationService.Insert(item, Constants.VacationBaseUrl);
+        var response = await DisplayMessage(flag, message);
+        if (response)
+        {
+            SelectedEmployee = new();
+            vacation = new();
+            vacationDialog!.CloseDialog();
+        }
     }
 
     private async Task<bool> DisplayMessage(bool flag, string message)

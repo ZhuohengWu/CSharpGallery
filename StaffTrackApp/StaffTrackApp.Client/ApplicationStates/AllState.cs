@@ -67,6 +67,59 @@ public class AllState
         Action?.Invoke();
     }
 
+    public bool ShowHealth { get; set; }
+    public void HealthClicked()
+    {
+        RessetAll();
+        ShowHealth = true;
+        Action?.Invoke();
+    }
+
+    public bool ShowOvertime { get; set; }
+    public void OvertimeClicked()
+    {
+        RessetAll();
+        ShowOvertime = true;
+        Action?.Invoke();
+    }
+    public bool ShowOvertimeType { get; set; }
+    public void OvertimeTypeClicked()
+    {
+        RessetAll();
+        ShowOvertimeType = true;
+        Action?.Invoke();
+    }
+
+    public bool ShowSanction { get; set; }
+    public void SanctionClicked()
+    {
+        RessetAll();
+        ShowSanction = true;
+        Action?.Invoke();
+    }
+    public bool ShowSanctionType { get; set; }
+    public void SanctionTypeClicked()
+    {
+        RessetAll();
+        ShowSanctionType = true;
+        Action?.Invoke();
+    }
+
+    public bool ShowVacation { get; set; }
+    public void VacationClicked()
+    {
+        RessetAll();
+        ShowVacation = true;
+        Action?.Invoke();
+    }
+    public bool ShowVacationType { get; set; }
+    public void VacationTypeClicked()
+    {
+        RessetAll();
+        ShowVacationType = true;
+        Action?.Invoke();
+    }
+
     private void RessetAll()
     {
         ShowGeneralDepartment = false;
@@ -79,5 +132,12 @@ public class AllState
 
         ShowUser = false;
         ShowEmployee = false;
+        ShowHealth = false;
+        ShowOvertime = false;
+        ShowOvertimeType = false;
+        ShowSanction = false;
+        ShowSanctionType = false;
+        ShowVacation = false;
+        ShowVacationType = false;
     }
 }

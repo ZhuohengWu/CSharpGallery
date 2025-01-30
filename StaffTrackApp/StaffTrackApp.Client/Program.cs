@@ -38,6 +38,16 @@ builder.Services.AddScoped<IGenericService<Country>, GenericService<Country>>();
 builder.Services.AddScoped<IGenericService<City>, GenericService<City>>();
 builder.Services.AddScoped<IGenericService<Town>, GenericService<Town>>();
 
+builder.Services.AddScoped<IGenericService<Sanction>, GenericService<Sanction>>();
+builder.Services.AddScoped<IGenericService<SanctionType>, GenericService<SanctionType>>();
+builder.Services.AddScoped<IGenericService<Vacation>, GenericService<Vacation>>();
+builder.Services.AddScoped<IGenericService<VacationType>, GenericService<VacationType>>();
+builder.Services.AddScoped<IGenericService<Overtime>, GenericService<Overtime>>();
+builder.Services.AddScoped<IGenericService<OvertimeType>, GenericService<OvertimeType>>();
+
+builder.Services.AddScoped<IGenericService<Doctor>, GenericService<Doctor>>();
+
+
 builder.Services.AddScoped<AllState>();
 
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWX5cd3RSRWVeWEdxWko=");

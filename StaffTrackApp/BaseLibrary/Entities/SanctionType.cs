@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BaseLibrary.Entities;
 
-public class SanctionType : RecordBaseEntity
+public class SanctionType : BaseEntity
 {
     [JsonIgnore]
     public List<Sanction>? Sanctions { get; set; }
