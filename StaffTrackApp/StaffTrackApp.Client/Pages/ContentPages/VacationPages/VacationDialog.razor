@@ -20,7 +20,7 @@
                         </div>
                         <div class="mt-2">
                             <label class="form-label">End Date</label>
-                            <InputText value="ItemModel.EndDate" class="form-control" disabled />
+                            <InputDate Value="ItemModel.EndDate" class="form-control readonly-grey" readonly ValueExpression="() => ItemModel.EndDate" />
                         </div>
                         <div class="mt-3 mb-3">
                             <label class="form-label">Select Type</label>
@@ -52,6 +52,14 @@
     </DialogButtons>
 
 </SfDialog>
+
+<style>
+    .readonly-grey {
+        background-color: #e9ecef !important; 
+        color: #6c757d !important; 
+        cursor: not-allowed;
+    }
+</style>
 
 @code {
     [Parameter] public Vacation ItemModel { get; set; } = new();

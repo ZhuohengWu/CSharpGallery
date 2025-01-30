@@ -12,21 +12,26 @@
                         </div>
                         <div class="mt-2">
                             <label class="form-label">Date</label>
-                            <input @bind="Doctor.Date" class="form-control" />
+                            <InputDate @bind-Value="Doctor.Date" class="form-control" />
                         </div>
                         <div class="mt-2">
                             <label class="form-label">Diagnose</label>
-                            <input @bind="Doctor.Diagnose" class="form-control" />
+                            <InputTextArea @bind-Value="Doctor.Diagnose" class="form-control" />
                         </div>
                         <div class="mt-2">
                             <label class="form-label">Recommadation</label>
-                            <input @bind="Doctor.Recommondation" class="form-control" />
+                            <InputTextArea @bind-Value="Doctor.Recommondation" class="form-control" />
                         </div>
                     </div>
                 </div>
             </EditForm>
         </Content>
     </DialogTemplates>
+
+    <DialogButtons>
+        <DialogButton Content="Save" Type="ButtonType.Submit" IsPrimary="true" OnClick="Save" />
+    </DialogButtons>
+
 </SfDialog>
 
 @code {
@@ -34,7 +39,7 @@
     [Parameter] public Doctor Doctor { get; set; } = new();
     [Parameter] public EventCallback<Doctor> HandleSaveOperationEvent { get; set; }
     private bool IsVisible { get; set; }
-    private async void Save() => await HandleSaveOperationEvent.InvokeAsync();
+    private async void Save() => await HandleSaveOperationEvent.InvokeAsync(Doctor);
     public void OpenDialog()
     {
         IsVisible = true;

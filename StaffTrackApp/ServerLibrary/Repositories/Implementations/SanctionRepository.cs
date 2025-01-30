@@ -29,7 +29,7 @@ public class SanctionRepository(StaffTrackDb dbContext) : IGenericRepository<San
 
     public async Task<List<Sanction>> GetAll()
      => await dbContext.Sanctions.AsNoTracking()
-        .Include(o => o.SanctionTypeId).ToListAsync();
+        .Include(o => o.SanctionType).ToListAsync();
 
     public async Task<Sanction> GetById(int id)
     {

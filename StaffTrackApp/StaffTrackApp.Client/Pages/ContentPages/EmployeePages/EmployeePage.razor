@@ -36,7 +36,7 @@
                                         <Template>
                                             @{
                                                 var employee = (context as Employee);
-                                                <i class="bi bi-menu-down text-primary" id="cursorStyle"
+                                                <i class="bi bi-menu-down text-primary cursorStyle"
                                                     @onclick="() => ShowMenuPopUp(employee!)">
                                                 </i>
                                             }
@@ -125,6 +125,10 @@
         allState.Action += StateHasChanged;
         await LoadDefaults();
         await LoadEmployees();
+
+        await GetOvertimeTypes();
+        await GetSanctionTypes();
+        await GetVacationTypes();
     }
 
     private async Task LoadDefaults()
@@ -272,6 +276,14 @@
             doctorDialog!.CloseDialog();
         }
     }
+
+    private async Task GetOvertimeTypes() 
+    => overtimeTypes = await overtimeTypeService.GetAll(Constants.OvertimeTypeBaseUrl);
+    private async Task GetSanctionTypes() 
+    => sanctionTypes = await sanctionTypeService.GetAll(Constants.SanctionTypeBaseUrl);
+    private async Task GetVacationTypes() 
+    => vacationTypes = await vacationTypeService.GetAll(Constants.VacationTypeBaseUrl);
+
     OvertimeDialog? overtimeDialog;
     Overtime overtime = new();
     List<OvertimeType> overtimeTypes = [];
@@ -301,7 +313,7 @@
     private void AddSanctionClicked()
     {
         sanction.EmployeeId = SelectedEmployee.Id;
-        contextMenu.CloseContextMenu();
+        contextMenu!.CloseContextMenu();
         sanctionDialog!.OpenDialog();
     }
 

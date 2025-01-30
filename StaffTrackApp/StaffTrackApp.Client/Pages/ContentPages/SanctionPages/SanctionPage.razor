@@ -34,8 +34,8 @@
                                             @{
                                                 var item = (context as Sanction);
                                                 <div>
-                                                    <i class="bi bi-pencil text-info" id="cursorStyle" @onclick="()=>EditClicked(item!)"></i>
-                                                    <i class="bi bi-trash text-danger" id="cursorStyle" @onclick="()=>DeleteClicked(item!)"></i>
+                                                    <i class="bi bi-pencil text-info cursorStyle" @onclick="()=>EditClicked(item!)"></i>
+                                                    <i class="bi bi-trash text-danger cursorStyle" @onclick="()=>DeleteClicked(item!)"></i>
                                                 </div>
                                             }
                                         </Template>
@@ -50,16 +50,10 @@
     </div>
 }
 
-<style>
-    #cursorStyle {
-        cursor: pointer;
-    }
-</style>
-
 <SanctionDialog @ref="sanctionDialog"
             HandleSaveOperationEvent="handleSaveOperationEvent"
             ItemModel="itemModel"
-                SanctionTypes="sanctionTypes" />
+            SanctionTypes="sanctionTypes" />
 @code {
     private SfGrid<Sanction>? defaultGrid;
     SanctionDialog? sanctionDialog;

@@ -33,8 +33,8 @@
             </Authorized>
         </AuthorizeView>
 
-        <AuthorizeView Roles="Admin,User">
-            <Authorized>
+        @* <AuthorizeView Roles="Admin,User">
+            <Authorized> *@
                 <div class="nav-item px-3" style="margin-top:@DepartmentMargin">
                     <NavLink class="nav-link p-2" @onclick="ShowDepartmentContainer"
                              style="cursor:pointer" href="javascript:void()">
@@ -146,16 +146,10 @@
                         </ul>
                     </div>
                 </div>
-            </Authorized>
-        </AuthorizeView>
+            @* </Authorized>
+        </AuthorizeView> *@
     </nav>
 </div>
-
-<style>
-    #cursorStyle {
-        cursor: pointer;
-    }
-</style>
 
 @code {
     private bool collapseNavMenu = false;

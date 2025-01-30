@@ -3,44 +3,38 @@
     <DialogTemplates>
         <Header>Employee Menu</Header>
         <Content>
-            <div class="hstack gap-2 mb-2" id="cursorStyle" @onclick="ViewClicked">
+            <div class="hstack gap-2 mb-2 cursorStyle" @onclick="ViewClicked">
                 <i class="bi bi-eye text-info"></i>
-                <span id="cursorStyle" class="text-info">View</span>
+                <span class="text-info">View</span>
             </div>
-            <div class="hstack gap-2 mb-2" id="cursorStyle" @onclick="EditClicked">
+            <div class="hstack gap-2 mb-2 cursorStyle" @onclick="EditClicked">
                 <i class="bi bi-pencil text-primary"></i>
-                <span id="cursorStyle" class="text-info">Edit</span>
+                <span class="text-info">Edit</span>
             </div>
-            <div class="hstack gap-2 mb-2" id="cursorStyle" @onclick="DeleteClicked">
+            <div class="hstack gap-2 mb-2 cursorStyle" @onclick="DeleteClicked">
                 <i class="bi bi-trash text-primary"></i>
-                <span id="cursorStyle" class="text-info">Delete</span>
+                <span class="text-info">Delete</span>
             </div>
             <hr />
-            <div class="hstack gap-2" @onclick="AddVacationClicked" id="cursorStyle">
+            <div class="hstack gap-2 mb-2 cursorStyle" @onclick="AddVacationClicked">
                 <i class="bi bi-backpack3 text-success"></i>
-                <span id="cursorStyle" class="text-success">Add Vacation</span>
+                <span class="text-success cursorStyle">Add Vacation</span>
             </div>
-            <div class="hstack gap-2" @onclick="AddOvertimeClicked" id="cursorStyle">
+            <div class="hstack gap-2 mb-2 cursorStyle" @onclick="AddOvertimeClicked">
                 <i class="bi bi-stopwatch text-success"></i>
-                <span id="cursorStyle" class="text-success">Add Overtime</span>
+                <span class="text-danger cursorStyle">Add Overtime</span>
             </div>
-            <div class="hstack gap-2" @onclick="AddHealthClicked" id="cursorStyle">
+            <div class="hstack gap-2 mb-2 cursorStyle" @onclick="AddHealthClicked">
                 <i class="bi bi-hospital text-success"></i>
-                <span id="cursorStyle" class="text-success">Add Health</span>
+                <span class="text-warning cursorStyle">Add Health</span>
             </div>
-            <div class="hstack gap-2" @onclick="AddSanctionClicked" id="cursorStyle">
+            <div class="hstack gap-2 mb-2 cursorStyle" @onclick="AddSanctionClicked">
                 <i class="bi bi-x-octagon text-success"></i>
-                <span id="cursorStyle" class="text-success">Add Sanction</span>
+                <span class="text-info cursorStyle">Add Sanction</span>
             </div>
         </Content>
     </DialogTemplates>
 </SfDialog>
-
-<style>
-    .cursorStyle {
-        cursor: pointer;
-    }
-</style>
 
 @code {
     SfDialog? OpenDialog;

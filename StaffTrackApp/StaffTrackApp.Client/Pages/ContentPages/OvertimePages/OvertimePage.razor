@@ -34,8 +34,8 @@
                                             @{
                                                 var item = (context as Overtime);
                                                 <div>
-                                                    <i class="bi bi-pencil text-info" id="cursorStyle" @onclick="()=>EditClicked(item!)"></i>
-                                                    <i class="bi bi-trash text-danger" id="cursorStyle" @onclick="()=>DeleteClicked(item!)"></i>
+                                                    <i class="bi bi-pencil text-info cursorStyle" @onclick="()=>EditClicked(item!)"></i>
+                                                    <i class="bi bi-trash text-danger cursorStyle" @onclick="()=>DeleteClicked(item!)"></i>
                                                 </div>
                                             }
                                         </Template>
@@ -49,12 +49,6 @@
         </div>
     </div>
 }
-
-<style>
-    #cursorStyle {
-        cursor: pointer;
-    }
-</style>
 
 <OvertimeDialog @ref="overtimeDialog"
             HandleSaveOperationEvent="handleSaveOperationEvent"

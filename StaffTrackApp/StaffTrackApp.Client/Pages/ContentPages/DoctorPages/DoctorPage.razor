@@ -24,8 +24,8 @@
                                             @{
                                                 var doctor = (context as Doctor);
                                                 <div>
-                                                    <i class="bi bi-pencil text-info" id="cursorStyle" @onclick="()=>EditClicked(doctor!)"></i>
-                                                    <i class="bi bi-trash text-danger" id="cursorStyle" @onclick="()=>DeleteClicked(doctor!)"></i>
+                                                    <i class="bi bi-pencil text-info cursorStyle" @onclick="()=>EditClicked(doctor!)"></i>
+                                                    <i class="bi bi-trash text-danger cursorStyle" @onclick="()=>DeleteClicked(doctor!)"></i>
                                                 </div>
                                             }
                                         </Template>
@@ -40,15 +40,9 @@
     </div>
 }
 
-<style>
-    #cursorStyle {
-        cursor: pointer;
-    }
-</style>
-
 <DoctorDialog @ref="doctorDialog"
     Doctor="Doctor"
-              HandleSaveOperationEvent="HandleSaveOperationEvent" />
+    HandleSaveOperationEvent="HandleSaveOperationEvent" />
 
 @code {
     private SfGrid<Doctor>? DefaultGrid;

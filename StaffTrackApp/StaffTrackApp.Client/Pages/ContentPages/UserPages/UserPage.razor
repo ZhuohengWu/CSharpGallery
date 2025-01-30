@@ -34,8 +34,8 @@
                                                 <td>@item.Email</td>
                                                 <td>@item.Role</td>
                                                 <td>
-                                                    <i class="bi bi-pencil text-info" id="cursorStyle" style="margin-right:10px" @onclick="()=>EditClicked(item)"></i>
-                                                    <i class="bi bi-trash text-danger" id="cursorStyle" @onclick="()=>DeleteClicked(item)"></i>
+                                                    <i class="bi bi-pencil text-info cursorStyle" style="margin-right:10px" @onclick="()=>EditClicked(item)"></i>
+                                                    <i class="bi bi-trash text-danger cursorStyle" @onclick="()=>DeleteClicked(item)"></i>
                                                 </td>
                                             </tr>
                                             count++;
@@ -60,12 +60,6 @@
         </div>
     </div>
 }
-
-<style>
-    .cursorStyle {
-        cursor: pointer;
-    }
-</style>
 
 <UserDialog @ref="userDialog"
             HandleSaveOperationEvent="handleSaveOperationEvent"
