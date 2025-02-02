@@ -103,7 +103,7 @@
     private async Task CheckUserAuthentication()
     {
         var user = (await AuthenticationState).User;
-        bool isUserAuthenticated = user.Identity!.IsAuthenticated;
+        bool isUserAuthenticated = user.Identity?.IsAuthenticated ?? false;
         if (!isUserAuthenticated)
             NavManager.NavigateTo("identity/account/login");
     }

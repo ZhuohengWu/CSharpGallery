@@ -39,12 +39,13 @@
     {
         await LoadImage();
         allState.Action += StateHasChanged;
+        userProfileState.Action += StateHasChanged;
     }
 
     public void Dispose()
     {
         allState.Action -= StateHasChanged;
-
+        userProfileState.Action -= StateHasChanged;
     }
 
     private async Task LoadImage()

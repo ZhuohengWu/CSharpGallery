@@ -114,6 +114,7 @@
         {
             await dialogService.AlertAsync("Profile updated", "Success");
             userProfileState.ProfileUpdated();
+            await LogoutClicked();
         }
     }
     async void UploadImage(InputFileChangeEventArgs e)
@@ -126,10 +127,19 @@
             await resizeImg.OpenReadStream().ReadAsync(buffer);
             var imageData = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
             userProfileState.UserProfile.Image = imageData;
+            //StateHasChanged();
             imageData = "";
             return;
         }
         await dialogService.AlertAsync("PNG file needed", "Alert!");
         return;
+    }
+
+    private async Task LogoutClicked()
+    {
+        var logoutModel = new UserSession();
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(logoutModel);
+        NavManager.NavigateTo("/identity/account/login", replace: true, forceLoad: true);
     }
 }

@@ -1,7 +1,7 @@
 ﻿<div class="container-fluid">
     <div class="row">
         <div class="col-lg-2">
-            <div class="card border-primary cursorStyle">
+            <div class="card border-primary cursorStyle" @onclick="EmployeeClicked">
                 <div class="card-header">
                     <i class="bi bi-people text-primary"></i> Employees
                     <span class="badge bg-primary fs-6"> @Employees.Count() </span>
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="col-lg-2">
-            <div class="card border-dark cursorStyle">
+            <div class="card border-dark cursorStyle" @onclick="DepartmentClicked">
                 <div class="card-header">
                     <i class="bi bi-slack text-dark"></i> Departments
                     <span class="badge bg-dark fs-6"> @Departments.Count() </span>
@@ -75,10 +75,12 @@
         Healths = await doctorService.GetAll(Constants.DoctorBaseUrl);
     }
 
+    void EmployeeClicked() => allState.EmployeeClicked();
     void HealthClicked() => allState.HealthClicked();
     void OvertimeClicked() => allState.OvertimeClicked();
     void SanctionClicked() => allState.SanctionClicked();
     void VacationClicked() => allState.VacationClicked();
+    void DepartmentClicked() => allState.DepartmentClicked();
 
     public void Displose() => allState.Action -= StateHasChanged;
 }
