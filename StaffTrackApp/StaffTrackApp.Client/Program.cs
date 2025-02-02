@@ -49,6 +49,7 @@ builder.Services.AddScoped<IGenericService<Doctor>, GenericService<Doctor>>();
 
 
 builder.Services.AddScoped<AllState>();
+builder.Services.AddScoped<UserProfileState>();
 
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWX5cd3RSRWVeWEdxWko=");
 builder.Services.AddScoped<SfDialogService>();

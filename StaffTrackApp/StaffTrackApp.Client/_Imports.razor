@@ -19,6 +19,7 @@
 @using StaffTrackApp.Client.Pages.ContentPages.OvertimePages
 @using StaffTrackApp.Client.Pages.ContentPages.SanctionPages
 @using StaffTrackApp.Client.Pages.ContentPages.VacationPages
+@using StaffTrackApp.Client.Pages.ContentPages.ProfilePages
 
 @using BaseLibrary.DTOs
 @using ClientLibrary.Helpers
@@ -33,6 +34,8 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavManager
 @inject AllState allState
+@inject UserProfileState userProfileState
+@inject GetHttpClient getHttpClient
 
 @inject SfDialogService dialogService
 @inject IUserAccountService accountService

@@ -3,7 +3,7 @@
 
 <div class="top-row ps-3 navbar navbar-dark navbar-expand-md">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/home/dashboard">
+        <a class="navbar-brand cursorStyle" @onclick="HomeClicked" >
             <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
         </a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -184,7 +184,7 @@
     private void ShowDepartmentContainer()
     {
         ShowHideDepartment = !ShowHideDepartment;
-        
+
         if (ShowHideDepartment)
         {
             DepartmentCssStyle = "visible";
@@ -194,6 +194,8 @@
             DepartmentCssStyle = "hidden";
         }
     }
+
+    private void HomeClicked() => allState.EmployeeClicked();
 
     private void GeneralDepartmentClicked() => allState.GeneralDepartmentClicked();
     private void DepartmentClicked() => allState.DepartmentClicked();

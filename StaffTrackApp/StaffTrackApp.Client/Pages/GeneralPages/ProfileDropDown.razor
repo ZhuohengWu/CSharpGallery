@@ -1,5 +1,6 @@
-﻿<div class="btn-group">
-    <img src="@(ProfileImage == "" ? "../images/profile/defaultProfile.png" : ProfileImage)"
+﻿@using System.Security.Claims
+<div class="btn-group">
+    <img src="@(userProfileState.UserProfile.Image)"
          width="35" height="40"
          style="border-radius: 50%; margin-right: 5px;"
          alt="Profile Image" 
@@ -13,7 +14,7 @@
                 <div class="card-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a class="text-primary fw-bold float-start text-decoration-none" style="font-family:Tahoma; cursor:pointer;">
+                            <a class="text-primary fw-bold float-start text-decoration-none" style="font-family:Tahoma; cursor:pointer;" @onclick="UserProfileClicked">
                                 <i class="bi bi-person-gear"></i>
                                 Profile
                             </a>
@@ -33,7 +34,36 @@
 </div>
 
 @code{
-    public string ProfileImage { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadImage();
+        allState.Action += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        allState.Action -= StateHasChanged;
+
+    }
+
+    private async Task LoadImage()
+    {
+        try
+        {
+            var client = await getHttpClient.GetPrivateHttpClient();
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            userProfileState.UserProfile.Id = authState.User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.NameIdentifier)!.Value;
+            var response = await client.GetAsync($"api/authentication/user-image/{userProfileState.UserProfile.Id}");
+            if (!response.IsSuccessStatusCode) return;
+
+            var result = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(result)) return;
+            else userProfileState.UserProfile.Image = result!;
+        }
+        catch
+        { }
+    }
 
     private async Task LogoutClicked()
     {
@@ -41,5 +71,10 @@
         var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(logoutModel);
         NavManager.NavigateTo("/identity/account/login", replace: true, forceLoad: true);
+    }
+
+    private void UserProfileClicked()
+    {
+        allState.UserProfileClicked();
     }
 }

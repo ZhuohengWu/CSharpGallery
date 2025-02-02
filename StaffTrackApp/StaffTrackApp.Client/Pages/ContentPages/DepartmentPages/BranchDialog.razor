@@ -35,14 +35,13 @@
                             }
                         </div>
                     </div>
+                    <div class="cardcard-footer">
+                        <button class="btn btn-primary float-end" type="submit">Save</button>
+                    </div>
                 </div>
             </EditForm>
         </Content>
     </DialogTemplates>
-
-    <DialogButtons>
-        <DialogButton Content="Save" Type="ButtonType.Submit" IsPrimary="true" OnClick="Save" />
-    </DialogButtons>
 </SfDialog>
 
 @code {
@@ -56,10 +55,16 @@
     private bool IsVisible { get; set; } = false;
     private string title { get; set; } = "Add";
 
-    public void OpenDialog()
+    public async void OpenDialog()
     {
         IsVisible = true;
+        await GetDepartments();
         StateHasChanged();
+    }
+
+    private async Task GetDepartments()
+    {
+        Departments = await departmentService.GetAll(Constants.DepartmentBaseUrl);
     }
 
     private async void Save()

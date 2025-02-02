@@ -120,6 +120,14 @@ public class AllState
         Action?.Invoke();
     }
 
+    public bool ShowUserProfile { get; set; }
+    public void UserProfileClicked()
+    {
+        RessetAll();
+        ShowUserProfile = true;
+        Action?.Invoke();
+    }
+
     private void RessetAll()
     {
         ShowGeneralDepartment = false;
@@ -139,5 +147,7 @@ public class AllState
         ShowSanctionType = false;
         ShowVacation = false;
         ShowVacationType = false;
+
+        ShowUserProfile = false;
     }
 }

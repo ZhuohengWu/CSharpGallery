@@ -19,4 +19,7 @@ public interface IUserAccount
     Task<GeneralResponse> UpdateUserAsync(ManageUser user);
     Task<List<SystemRole>> GetRolesAsync();
     Task<GeneralResponse> DeleteUserAsync(int id);
+
+    Task<string> GetUserImageAsync(int id);
+    Task<bool> UpdateUserProfileAsync(UserProfile profile);
 }

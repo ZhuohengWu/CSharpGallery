@@ -8,10 +8,11 @@ namespace StaffTrackApp.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    
     public class AuthenticationController(IUserAccount accountInterface) : ControllerBase
     {
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateAsync(Register user)
         {
             if (user is null) return BadRequest("Empty Register model");
@@ -20,6 +21,7 @@ namespace StaffTrackApp.Server.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignInAsync(Login user)
         {
             if (user is null) return BadRequest("Empty Login model");
@@ -28,6 +30,7 @@ namespace StaffTrackApp.Server.Controllers
         }
 
         [HttpPost("refresh-token")]
+        [AllowAnonymous]
         public async Task<IActionResult> RefreshTokenAsync(RefreshToken token)
         {
             if (token is null) return BadRequest("Empty RefreshToken model");
@@ -36,6 +39,7 @@ namespace StaffTrackApp.Server.Controllers
         }
 
         [HttpGet("users")]
+        [Authorize]
         public async Task<IActionResult> GetUsersAsync()
         {
             var result = await accountInterface.GetUsersAsync();
@@ -44,6 +48,7 @@ namespace StaffTrackApp.Server.Controllers
         }
 
         [HttpPut("update-user")]
+        [Authorize]
         public async Task<IActionResult> UpdateUserAsync(ManageUser user)
         {
             var result = await accountInterface.UpdateUserAsync(user);
@@ -51,6 +56,7 @@ namespace StaffTrackApp.Server.Controllers
         }
 
         [HttpGet("roles")]
+        [Authorize]
         public async Task<IActionResult> GetRolesAsync()
         {
             var result = await accountInterface.GetRolesAsync();
@@ -59,9 +65,26 @@ namespace StaffTrackApp.Server.Controllers
         }
 
         [HttpDelete("delete-users/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUserAsync(int id)
         {
             var result = await accountInterface.DeleteUserAsync(id);
+            return Ok(result);
+        }
+
+        [HttpGet("user-image/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserImageAsync(int id)
+        {
+            var result = await accountInterface.GetUserImageAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPut("update-profile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUserProfileAsync(UserProfile user)
+        {
+            var result = await accountInterface.UpdateUserProfileAsync(user);
             return Ok(result);
         }
     }

@@ -238,4 +238,16 @@ public class UserAccountRepository(IOptions<JwtSection> config, StaffTrackDb dbC
             .AsNoTracking()
             .ToListAsync();
     }
+
+    public async Task<string> GetUserImageAsync(int id)
+        => (await GetAllApplicationUsers()).FirstOrDefault(_ => _.Id == id)!.Image;
+    public async Task<bool> UpdateUserProfileAsync(UserProfile profile)
+    {
+        var user = await dbContext.ApplicationUsers.FirstOrDefaultAsync(_ => _.Id == int.Parse(profile.Id));
+        user!.FullName = profile.Name;
+        user.Email = profile.Email;
+        user.Image = profile.Image;
+        await dbContext.SaveChangesAsync();
+        return true;
+    }
 }
