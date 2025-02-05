@@ -20,6 +20,7 @@ namespace Clean.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Scans the assembly to register all classes that implement IEntityTypeConfiguration
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CleanDbContext).Assembly);
         }
     }

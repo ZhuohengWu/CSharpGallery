@@ -1,5 +1,4 @@
-﻿
-namespace Clean.Application.Responses;
+﻿namespace Clean.Application.Commons.Responses;
 
 public record class ServiceResponse<T>(T? Data, bool IsSuccess, string? Message = null!)
 {

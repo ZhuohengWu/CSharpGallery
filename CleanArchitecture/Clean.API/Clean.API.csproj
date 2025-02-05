@@ -10,4 +10,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Clean.Infrastructure\Clean.Infrastructure.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Clean.Application.DependencyInjection" />
+	</ItemGroup>
+	
 </Project>
