@@ -1,13 +1,6 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Clean.Application.Responses;
+using MediatR;
 
-namespace Clean.Application.Features.ToDo.Create
-{
-    public record CreateToDoTaskCommand(CreateToDoTask CreateToDo) : IRequest<Guid>
-    {
-    }
-}
+namespace Clean.Application.Features.ToDo.Create;
+
+public record class CreateToDoTaskCommand(CreateToDoTask CreateToDo) : IRequest<ServiceResponse<Guid>>;
