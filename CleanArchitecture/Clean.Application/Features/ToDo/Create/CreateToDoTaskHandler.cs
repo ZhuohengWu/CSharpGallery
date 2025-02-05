@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Clean.Application.Commons.Data;
-using Clean.Application.Responses;
+using Clean.Application.Commons.Responses;
 using Clean.Domain.Entities;
 using MediatR;
 

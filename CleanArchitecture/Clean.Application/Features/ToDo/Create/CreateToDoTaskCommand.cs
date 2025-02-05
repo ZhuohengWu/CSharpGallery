@@ -1,4 +1,4 @@
-﻿using Clean.Application.Responses;
+﻿using Clean.Application.Commons.Responses;
 using MediatR;
 
 namespace Clean.Application.Features.ToDo.Create;
