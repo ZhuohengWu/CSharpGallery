@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Clean.Application.Features.ToDo.Create;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,7 +8,7 @@ namespace Clean.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ToDoTasksController : ControllerBase
+    public class ToDoTasksController(ISender sender) : ControllerBase
     {
         // GET: api/<ToDoTasksController>
         [HttpGet]
@@ -24,13 +26,15 @@ namespace Clean.API.Controllers
 
         // POST api/<ToDoTasksController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Create(CreateToDoTask dto)
         {
+            var result = await sender.Send(new CreateToDoTaskCommand(dto));
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         // PUT api/<ToDoTasksController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Update(int id, [FromBody] string value)
         {
         }
 
