@@ -1,8 +1,12 @@
-using Clean.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Host.UseSerilog((context, loggerConfig) =>
+{
+    loggerConfig.ReadFrom.Configuration(context.Configuration);
+});
 
 builder.Services
     .AddApplication()
@@ -21,10 +25,15 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.ApplyMigrations();
+   // app.ApplyMigrations();
 }
 app.UsePresentation();
 app.UseExceptionHandler();
+app.UseSerilogRequestLogging();
+app.MapHealthChecks("health", new HealthCheckOptions 
+{ 
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse 
+});
 
 app.UseHttpsRedirection();
 

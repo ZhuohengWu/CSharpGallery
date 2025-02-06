@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Serilog;
 
 namespace Clean.Application.Commons.Behaviors
 {
@@ -18,8 +19,10 @@ namespace Clean.Application.Commons.Behaviors
                 .ToList();
             if (failures.Count != 0)
             {
+                Log.Error($"Validation Errors: {failures}");
                 throw new ValidationException(failures);
             }
+            Log.Information("Model validation passed");
             return await next();
         }
     }

@@ -16,6 +16,7 @@ public static class ApplicationService
         {
             config.RegisterServicesFromAssembly(typeof(ApplicationService).Assembly);
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            config.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
 
         return services;
