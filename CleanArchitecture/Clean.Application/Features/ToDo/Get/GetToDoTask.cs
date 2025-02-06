@@ -6,5 +6,8 @@ using System.Threading.Tasks;
 
 namespace Clean.Application.Features.ToDo.Get
 {
-    public record GetToDoTask : ToDoTaskBase;
+    public record GetToDoTask : ToDoTaskBase
+    {
+        public Guid Id { get; set; }
+    }
 }

@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 }
 app.UsePresentation();
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 

@@ -1,6 +1,8 @@
 ﻿using Clean.Application.Features.ToDo.Create;
+using Clean.Application.Features.ToDo.Delete;
 using Clean.Application.Features.ToDo.Get;
 using Clean.Application.Features.ToDo.GetAll;
+using Clean.Application.Features.ToDo.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +14,6 @@ namespace Clean.API.Controllers
     [ApiController]
     public class ToDoTasksController(ISender sender) : ControllerBase
     {
-        // GET: api/<ToDoTasksController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -20,7 +21,6 @@ namespace Clean.API.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        // GET api/<ToDoTasksController>/5
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -28,7 +28,6 @@ namespace Clean.API.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        // POST api/<ToDoTasksController>
         [HttpPost]
         public async Task<IActionResult> Create(CreateToDoTask dto)
         {
@@ -36,16 +35,18 @@ namespace Clean.API.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        // PUT api/<ToDoTasksController>/5
-        [HttpPut("{id}")]
-        public void Update(int id, [FromBody] string value)
+        [HttpPut()]
+        public async Task<IActionResult> Update(UpdateToDoTask dto)
         {
+            var result = await sender.Send(new UpdateToDoTaskCommand(dto));
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        // DELETE api/<ToDoTasksController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
+            var result = await sender.Send(new DeleteToDoTaskCommand(new DeleteToDoTask(id)));
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
 }

@@ -1,10 +1,14 @@
-﻿namespace Clean.API.DependencyInjection;
+﻿using Clean.API.Exceptions;
+
+namespace Clean.API.DependencyInjection;
 
 public static class ServiceContainer
 {
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
         services.AddControllers();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
         return services;
     }
 

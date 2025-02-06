@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using Clean.Application.Features.ToDo.Create;
+using Clean.Application.Features.ToDo.Update;
 using Clean.Domain.Entities;
 
 namespace Clean.Application.Commons.Mapping
@@ -12,6 +13,8 @@ namespace Clean.Application.Commons.Mapping
             CreateMap<CreateToDoTask, ToDoTask>();
             CreateMap<ToDoTask, Features.ToDo.Get.GetToDoTask>();
             CreateMap<ToDoTask, Features.ToDo.GetAll.GetToDoTask>();
+            CreateMap<UpdateToDoTask, ToDoTask>();
+
         }
     }
 }

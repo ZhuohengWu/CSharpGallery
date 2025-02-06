@@ -6,7 +6,7 @@ namespace Clean.Infrastructure.Persistence
 {
     public class CleanDbContext(DbContextOptions<CleanDbContext> options) : DbContext(options), ICleanDbContext
     {
-        public DbSet<ToDoTask> TodoItems { get; set; }
+        public DbSet<ToDoTask> TodoItems => Set<ToDoTask>();
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
