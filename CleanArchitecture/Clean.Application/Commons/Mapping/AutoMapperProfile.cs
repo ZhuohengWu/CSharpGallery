@@ -10,6 +10,8 @@ namespace Clean.Application.Commons.Mapping
         public AutoMapperProfile()
         {
             CreateMap<CreateToDoTask, ToDoTask>();
+            CreateMap<ToDoTask, Features.ToDo.Get.GetToDoTask>();
+            CreateMap<ToDoTask, Features.ToDo.GetAll.GetToDoTask>();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Clean.Application.Features.ToDo.Create;
+using Clean.Application.Features.ToDo.Get;
+using Clean.Application.Features.ToDo.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,16 +14,18 @@ namespace Clean.API.Controllers
     {
         // GET: api/<ToDoTasksController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = await sender.Send(new GetAllToDoTaskQuery());
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         // GET api/<ToDoTasksController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> Get(Guid id)
         {
-            return "value";
+            var result = await sender.Send(new GetToDoTaskQuery(id));
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         // POST api/<ToDoTasksController>
