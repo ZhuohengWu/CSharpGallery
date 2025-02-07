@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using eCommerce.API.Data;
+using Infrastructure.Data;
 
 #nullable disable
 
-namespace eCommerce.API.Data.Mifrations
+namespace Infrastructure.Data.Mifrations
 {
     [DbContext(typeof(StoreContext))]
     [Migration("20250207133843_InitialCreate")]

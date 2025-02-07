@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using eCommerce.API.Data;
+using Infrastructure.Data;
 
 #nullable disable
 
-namespace eCommerce.API.Data.Mifrations
+namespace Infrastructure.Data.Mifrations
 {
     [DbContext(typeof(StoreContext))]
     partial class StoreContextModelSnapshot : ModelSnapshot
