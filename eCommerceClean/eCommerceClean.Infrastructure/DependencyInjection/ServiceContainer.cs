@@ -13,15 +13,15 @@ namespace eCommerceClean.Infrastructure.DependencyInjection
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            string? connectionString = configuration.GetConnectionString("CleanAppSqlServer");
+            string? connectionString = configuration.GetConnectionString("ECommerceAppSqlServer");
             services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddScoped<ICleanDbContext>(sp => sp.GetRequiredService<StoreDbContext>());
+            services.AddScoped<IStoreDbContext>(sp => sp.GetRequiredService<StoreDbContext>());
             return services;
         }
 
         private static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHealthChecks().AddSqlServer(configuration.GetConnectionString("CleanAppSqlServer")!);
+            services.AddHealthChecks().AddSqlServer(configuration.GetConnectionString("ECommerceAppSqlServer")!);
             return services;
         }
     }

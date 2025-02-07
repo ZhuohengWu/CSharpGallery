@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceClean.Infrastructure.Persistence
 {
-    public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContext(options), ICleanDbContext
+    public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContext(options), IStoreDbContext
     {
-        public DbSet<ToDoTask> TodoItems => Set<ToDoTask>();
+        //public DbSet<ToDoTask> TodoItems => Set<ToDoTask>();
 
         public DbSet<Product> Products => Set<Product>();
 

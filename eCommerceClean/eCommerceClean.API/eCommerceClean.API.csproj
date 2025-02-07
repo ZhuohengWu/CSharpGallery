@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Clean.Infrastructure\eCommerceClean.Infrastructure.csproj" />
+    <ProjectReference Include="..\eCommerceClean.Infrastructure\eCommerceClean.Infrastructure.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

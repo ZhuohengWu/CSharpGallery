@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Clean.Application\eCommerceClean.Application.csproj" />
+    <ProjectReference Include="..\eCommerceClean.Application\eCommerceClean.Application.csproj" />
   </ItemGroup>
 
 </Project>
