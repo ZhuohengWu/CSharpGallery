@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceClean.Domain", "Clean.Domain\eCommerceClean.Domain.csproj", "{C16F33CF-794A-4BC6-8FC3-1D7A2B6FA663}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceClean.Domain", "eCommerceClean.Domain\eCommerceClean.Domain.csproj", "{C16F33CF-794A-4BC6-8FC3-1D7A2B6FA663}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceClean.Application", "Clean.Application\eCommerceClean.Application.csproj", "{107D0E26-39BB-485E-933C-7A7866A996D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceClean.Application", "eCommerceClean.Application\eCommerceClean.Application.csproj", "{107D0E26-39BB-485E-933C-7A7866A996D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceClean.Infrastructure", "Clean.Infrastructure\eCommerceClean.Infrastructure.csproj", "{8089A574-E944-4889-AC8C-9A86902A322F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceClean.Infrastructure", "eCommerceClean.Infrastructure\eCommerceClean.Infrastructure.csproj", "{8089A574-E944-4889-AC8C-9A86902A322F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{20AB62F8-92BB-459A-AAF0-5528018ABC46}"
 EndProject
@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{68CBDE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{5121524F-A3B9-43A3-A0DC-DD43580CA0C7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceClean.API", "Clean.API\eCommerceClean.API.csproj", "{94DCF079-1060-40F7-842D-F10087248DFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceClean.API", "eCommerceClean.API\eCommerceClean.API.csproj", "{94DCF079-1060-40F7-842D-F10087248DFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

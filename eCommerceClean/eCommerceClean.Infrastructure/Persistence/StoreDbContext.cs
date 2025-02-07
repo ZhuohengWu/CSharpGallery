@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceClean.Infrastructure.Persistence
 {
-    public class CleanDbContext(DbContextOptions<CleanDbContext> options) : DbContext(options), ICleanDbContext
+    public class StoreDbContext(DbContextOptions<StoreDbContext> options) : DbContext(options), ICleanDbContext
     {
         public DbSet<ToDoTask> TodoItems => Set<ToDoTask>();
+
+        public DbSet<Product> Products => Set<Product>();
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -16,7 +18,7 @@ namespace eCommerceClean.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Scans the assembly to register all classes that implement IEntityTypeConfiguration
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CleanDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoreDbContext).Assembly);
         }
     }
 }

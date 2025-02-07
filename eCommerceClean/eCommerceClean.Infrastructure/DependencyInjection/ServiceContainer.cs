@@ -14,8 +14,8 @@ namespace eCommerceClean.Infrastructure.DependencyInjection
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             string? connectionString = configuration.GetConnectionString("CleanAppSqlServer");
-            services.AddDbContext<CleanDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddScoped<ICleanDbContext>(sp => sp.GetRequiredService<CleanDbContext>());
+            services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<ICleanDbContext>(sp => sp.GetRequiredService<StoreDbContext>());
             return services;
         }
 
