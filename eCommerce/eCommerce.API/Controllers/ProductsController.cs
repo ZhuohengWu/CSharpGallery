@@ -1,4 +1,5 @@
-﻿using Infrastructure.Data;
+﻿using eCommerce.Core.Interfaces;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,13 +9,13 @@ namespace eCommerce.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController(StoreContext _context) : ControllerBase
+    public class ProductsController(IProductRepository ProductRepo) : ControllerBase
     {
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> GetAll()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await ProductRepo.GetAllAsync();
             return Ok(products);
         }
 
@@ -22,7 +23,7 @@ namespace eCommerce.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
-            return Ok(await _context.Products.FindAsync(id));
+            return Ok(await ProductRepo.GetAsync(id));
         }
 
         // POST api/<ProductsController>
