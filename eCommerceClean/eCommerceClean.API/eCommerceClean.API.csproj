@@ -30,4 +30,8 @@
 		<Using Include="Serilog" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="logs\" />
+	</ItemGroup>
+
 </Project>

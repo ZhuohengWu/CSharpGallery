@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using eCommerceClean.Application.Features.ProductDto.Create;
+using eCommerceClean.Application.Features.ProductDto.Get;
+using eCommerceClean.Application.Features.ProductDto.GetAll;
+using eCommerceClean.Application.Features.ToDo.Create;
+using eCommerceClean.Application.Features.ToDo.Get;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,35 +12,34 @@ namespace eCommerceClean.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController(ISender sender) : ControllerBase
     {
-        // GET: api/<ProductsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = await sender.Send(new GetAllProductQuery());
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var result = await sender.Send(new GetProductQuery(id));
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        // POST api/<ProductsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Create(CreateProduct dto)
         {
+            var result = await sender.Send(new CreateProductCommand(dto));
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Update(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

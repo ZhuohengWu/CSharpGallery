@@ -6,4 +6,4 @@
 
 # Visual Studio working files
 **/.vs/
-/CleanArchitecture/Clean.API/logs
+*.log
