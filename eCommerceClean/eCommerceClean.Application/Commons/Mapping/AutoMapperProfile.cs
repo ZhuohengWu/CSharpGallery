@@ -24,6 +24,9 @@ namespace eCommerceClean.Application.Commons.Mapping
             CreateMap<Product, Features.ProductDto.GetAll.GetProduct>()
                 .ForMember(response => response.ProductType, opt => opt.MapFrom(entity => entity.ProductType.Name))
                 .ForMember(response => response.ProductBrand, opt => opt.MapFrom(entity => entity.ProductBrand.Name));
+
+            CreateMap<ProductBrand, Features.ProductBrandDto.GetAll.GetAllProductBrand>();
+            CreateMap<ProductType, Features.ProductTypeDto.GetAll.GetAllProductType>();
         }
     }
 }

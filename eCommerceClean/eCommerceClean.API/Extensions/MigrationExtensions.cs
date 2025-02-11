@@ -1,7 +1,5 @@
-﻿using eCommerceClean.Domain.Entities;
-using eCommerceClean.Infrastructure.Persistence;
+﻿using eCommerceClean.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
 namespace eCommerceeCommerceClean.API.Extensions;
 

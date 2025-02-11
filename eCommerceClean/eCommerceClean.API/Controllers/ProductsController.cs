@@ -1,6 +1,8 @@
-﻿using eCommerceClean.Application.Features.ProductDto.Create;
+﻿using eCommerceClean.Application.Features.ProductBrandDto.GetAll;
+using eCommerceClean.Application.Features.ProductDto.Create;
 using eCommerceClean.Application.Features.ProductDto.Get;
 using eCommerceClean.Application.Features.ProductDto.GetAll;
+using eCommerceClean.Application.Features.ProductTypeDto.GetAll;
 using eCommerceClean.Application.Features.ToDo.Create;
 using eCommerceClean.Application.Features.ToDo.Get;
 using MediatR;
@@ -43,6 +45,20 @@ namespace eCommerceClean.API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult> GetAllBrands()
+        {
+            var result = await sender.Send(new GetAllProductBrandQuery());
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult> GetAllTypes()
+        {
+            var result = await sender.Send(new GetAllProductTypeQuery());
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
 }
