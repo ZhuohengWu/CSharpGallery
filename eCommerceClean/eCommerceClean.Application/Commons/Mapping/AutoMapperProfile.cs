@@ -1,8 +1,6 @@
 ﻿
 using AutoMapper;
 using eCommerceClean.Application.Features.ProductDto.Create;
-//using eCommerceClean.Application.Features.ToDo.Create;
-//using eCommerceClean.Application.Features.ToDo.Update;
 using eCommerceClean.Domain.Entities;
 
 namespace eCommerceClean.Application.Commons.Mapping
