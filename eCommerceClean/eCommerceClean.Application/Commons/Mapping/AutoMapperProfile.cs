@@ -16,8 +16,14 @@ namespace eCommerceClean.Application.Commons.Mapping
 
 
             CreateMap<CreateProduct, Product>();
-            CreateMap<Product, Features.ProductDto.Get.GetProduct>();
-            CreateMap<Product, Features.ProductDto.GetAll.GetProduct>();
+
+            CreateMap<Product, Features.ProductDto.Get.GetProduct>()
+                .ForMember(response => response.ProductType, opt => opt.MapFrom(entity => entity.ProductType.Name))
+                .ForMember(response => response.ProductBrand, opt => opt.MapFrom(entity => entity.ProductBrand.Name));
+
+            CreateMap<Product, Features.ProductDto.GetAll.GetProduct>()
+                .ForMember(response => response.ProductType, opt => opt.MapFrom(entity => entity.ProductType.Name))
+                .ForMember(response => response.ProductBrand, opt => opt.MapFrom(entity => entity.ProductBrand.Name));
         }
     }
 }

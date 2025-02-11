@@ -12,7 +12,7 @@ namespace eCommerceClean.Application.Features.ProductDto.GetAll
         public async Task<ServiceResponse<IEnumerable<GetProduct>>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
         {
             var getTasks = await context.Products
-                .AsNoTracking()
+                .AsNoTracking().Include(p => p.ProductBrand).Include(p => p.ProductType)
                 .ProjectTo<GetProduct>(mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
