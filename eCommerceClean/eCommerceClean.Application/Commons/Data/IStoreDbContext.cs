@@ -7,7 +7,7 @@ public interface IStoreDbContext
 {
     //DbSet<ToDoTask> TodoItems { get; }
     DbSet<Product> Products { get; }
-    DbSet<ProductBrand> ProductBrand { get; }
-    DbSet<ProductType> ProductType { get; }
+    DbSet<ProductBrand> ProductBrands { get; }
+    DbSet<ProductType> ProductTypes { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

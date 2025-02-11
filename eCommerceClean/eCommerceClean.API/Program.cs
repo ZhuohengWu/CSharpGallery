@@ -1,4 +1,6 @@
 
+using eCommerceeCommerceClean.API.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,7 +27,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-   // app.ApplyMigrations();
+    await app.ApplyMigrations();
+    await app.SeedDataAsync();   
 }
 app.UsePresentation();
 app.UseExceptionHandler();

@@ -20,4 +20,8 @@
     <ProjectReference Include="..\eCommerceClean.Application\eCommerceClean.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\SeedData\" />
+  </ItemGroup>
+
 </Project>

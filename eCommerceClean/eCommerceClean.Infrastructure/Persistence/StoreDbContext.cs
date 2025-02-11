@@ -9,8 +9,8 @@ namespace eCommerceClean.Infrastructure.Persistence
         //public DbSet<ToDoTask> TodoItems => Set<ToDoTask>();
 
         public DbSet<Product> Products => Set<Product>();
-        public DbSet<ProductBrand> ProductBrand => Set<ProductBrand>();
-        public DbSet<ProductType> ProductType => Set<ProductType>();
+        public DbSet<ProductBrand> ProductBrands => Set<ProductBrand>();
+        public DbSet<ProductType> ProductTypes => Set<ProductType>();
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return base.SaveChangesAsync(cancellationToken);
