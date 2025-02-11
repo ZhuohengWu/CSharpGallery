@@ -1,3 +1,4 @@
+using eCommerce.API.Extensions;
 using eCommerce.Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();
