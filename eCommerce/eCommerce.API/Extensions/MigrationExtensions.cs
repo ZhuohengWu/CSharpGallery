@@ -17,13 +17,18 @@ namespace eCommerce.API.Extensions
                 {
                     var dbContext = service.GetRequiredService<StoreContext>();
                     await dbContext.Database.MigrateAsync();
+                    await SeedDataAsync(dbContext, loggerFactory);
                 }
                 catch (Exception ex)
                 {
                     logger.LogError(ex, "An error occured during migration");
                 }
-
             }
+        }
+
+        private static async Task SeedDataAsync(StoreContext context, ILoggerFactory loggerFactory)
+        {
+            await StoreContextSeed.SeedAsync(context, loggerFactory);
         }
     }
 }
