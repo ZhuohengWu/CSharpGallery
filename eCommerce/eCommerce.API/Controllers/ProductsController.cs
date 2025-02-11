@@ -43,5 +43,19 @@ namespace eCommerce.API.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult> GetAllBrands()
+        {
+            var brands = await ProductRepo.GetBrandsAsync();
+            return Ok(brands);
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult> GetAllTypes()
+        {
+            var types = await ProductRepo.GetTypesAsync();
+            return Ok(types);
+        }
     }
 }

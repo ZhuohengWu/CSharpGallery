@@ -11,7 +11,7 @@ namespace Infrastructure.Data
         {
             try
             {
-                if (!context.ProductBrand.Any() )
+                if (!context.ProductBrands.Any() )
                 {
                     var brandsData = File.ReadAllText("../Infrastructure/Data/SeedData/brands.json");
 
@@ -19,12 +19,12 @@ namespace Infrastructure.Data
 
                     if (brands != null && brands.Any())
                     {
-                        context.ProductBrand.AddRange(brands); 
+                        context.ProductBrands.AddRange(brands); 
                         await context.SaveChangesAsync();
                     }
                 }
 
-                if (!context.ProductType.Any())
+                if (!context.ProductTypes.Any())
                 {
                     var typesData = File.ReadAllText("../Infrastructure/Data/SeedData/types.json");
 
@@ -32,7 +32,7 @@ namespace Infrastructure.Data
 
                     if (types != null && types.Any())
                     {
-                        context.ProductType.AddRange(types); 
+                        context.ProductTypes.AddRange(types); 
                         await context.SaveChangesAsync();
                     }
                 }
@@ -47,8 +47,8 @@ namespace Infrastructure.Data
                     {
                         foreach (var item in products)
                         {
-                            var brand = await context.ProductBrand.FirstOrDefaultAsync(b => b.Id == item.ProductBrandId);
-                            var type = await context.ProductType.FirstOrDefaultAsync(t => t.Id == item.ProductTypeId);
+                            var brand = await context.ProductBrands.FirstOrDefaultAsync(b => b.Id == item.ProductBrandId);
+                            var type = await context.ProductTypes.FirstOrDefaultAsync(t => t.Id == item.ProductTypeId);
                             if (brand != null && type != null)
                             {
                                 item.ProductBrand = brand;
