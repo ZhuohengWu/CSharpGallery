@@ -1,4 +1,5 @@
-﻿using eCommerce.API.Dtos;
+﻿using AutoMapper;
+using eCommerce.API.Dtos;
 using eCommerce.Core.Entities;
 using eCommerce.Core.Interfaces;
 using eCommerce.Core.Specifications;
@@ -14,7 +15,8 @@ namespace eCommerce.API.Controllers
     [ApiController]
     public class ProductsController(IGenericRepository<Product> productRepo, 
                                     IGenericRepository<ProductBrand> productBrandRepo,
-                                    IGenericRepository<ProductType> productTypeRepo) : ControllerBase
+                                    IGenericRepository<ProductType> productTypeRepo,
+                                    IMapper mapper) : ControllerBase
     {
         // GET: api/<ProductsController>
         [HttpGet]
@@ -22,20 +24,9 @@ namespace eCommerce.API.Controllers
         {
             var spec = new ProductWithTypesAndBrandsSpec();
             var products = await productRepo.ListAsync(spec);
-
             if (products == null || products.Count == 0) { BadRequest("No products found"); }
 
-            var dtos = products!.Select(product => new ProductToReturnDto
-            {
-                Id = product!.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                PictureUrl = product.PictureUrl,
-                ProductBrand = product.ProductBrand.Name,
-                ProductType = product.ProductType.Name
-            }).ToList();
-
+            var dtos = mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products!);
             return Ok(dtos);
         }
 
@@ -45,19 +36,9 @@ namespace eCommerce.API.Controllers
         {
             var spec = new ProductWithTypesAndBrandsSpec(id);
             var product = await productRepo.GetEntityWithSpec(spec);
-
             if (product == null) { BadRequest("No product found"); }
 
-            var dto = new ProductToReturnDto
-            {
-                Id = product!.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                PictureUrl = product.PictureUrl,
-                ProductBrand = product.ProductBrand.Name,
-                ProductType = product.ProductType.Name
-            };
+            var dto = mapper.Map<Product, ProductToReturnDto>(product!);
             return Ok(dto);
         }
 
