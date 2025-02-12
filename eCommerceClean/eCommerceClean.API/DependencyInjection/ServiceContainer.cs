@@ -14,6 +14,7 @@ public static class ServiceContainer
 
     public static IApplicationBuilder UsePresentation(this WebApplication app)
     {
+        app.UseStaticFiles();
         return app;
     }
 }
