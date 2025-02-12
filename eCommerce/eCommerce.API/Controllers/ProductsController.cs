@@ -1,4 +1,5 @@
-﻿using eCommerce.Core.Entities;
+﻿using eCommerce.API.Dtos;
+using eCommerce.Core.Entities;
 using eCommerce.Core.Interfaces;
 using eCommerce.Core.Specifications;
 using Infrastructure.Data;
@@ -21,7 +22,21 @@ namespace eCommerce.API.Controllers
         {
             var spec = new ProductWithTypesAndBrandsSpec();
             var products = await productRepo.ListAsync(spec);
-            return Ok(products);
+
+            if (products == null || products.Count == 0) { BadRequest("No products found"); }
+
+            var dtos = products!.Select(product => new ProductToReturnDto
+            {
+                Id = product!.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                PictureUrl = product.PictureUrl,
+                ProductBrand = product.ProductBrand.Name,
+                ProductType = product.ProductType.Name
+            }).ToList();
+
+            return Ok(dtos);
         }
 
         // GET api/<ProductsController>/5
@@ -29,7 +44,21 @@ namespace eCommerce.API.Controllers
         public async Task<ActionResult> Get(int id)
         {
             var spec = new ProductWithTypesAndBrandsSpec(id);
-            return Ok(await productRepo.GetEntityWithSpec(spec));
+            var product = await productRepo.GetEntityWithSpec(spec);
+
+            if (product == null) { BadRequest("No product found"); }
+
+            var dto = new ProductToReturnDto
+            {
+                Id = product!.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                PictureUrl = product.PictureUrl,
+                ProductBrand = product.ProductBrand.Name,
+                ProductType = product.ProductType.Name
+            };
+            return Ok(dto);
         }
 
         // POST api/<ProductsController>
