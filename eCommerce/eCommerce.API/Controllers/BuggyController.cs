@@ -1,6 +1,8 @@
-﻿using Infrastructure.Data;
+﻿using eCommerce.API.Errors;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
+using System.Net;
 
 namespace eCommerce.API.Controllers
 {
@@ -12,7 +14,7 @@ namespace eCommerce.API.Controllers
         public ActionResult GetNotFound()
         {
             var test = context.Products.Find(55);
-            if (test is null) return NotFound();
+            if (test is null) return NotFound(new ApiResponse(HttpStatusCode.NotFound));
 
             return Ok();
         }
@@ -29,7 +31,7 @@ namespace eCommerce.API.Controllers
         [HttpGet("badrequest")]
         public ActionResult GetBadRequest()
         {
-            return BadRequest();
+            return BadRequest(new ApiResponse(HttpStatusCode.BadRequest));
         }
 
         [HttpGet("badrequest/{id}")]
