@@ -9,7 +9,7 @@ namespace eCommerce.API.Controllers
     {
         public IActionResult Error(int code)
         {
-            return new ObjectResult(new ApiResponse((HttpStatusCode)code));
+            return new ObjectResult(new ApiResponse(code));
         }
     }
 }

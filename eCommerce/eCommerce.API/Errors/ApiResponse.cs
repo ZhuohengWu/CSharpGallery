@@ -2,10 +2,10 @@
 
 namespace eCommerce.API.Errors
 {
-    public class ApiResponse(HttpStatusCode statusCode, string? message = null)
+    public class ApiResponse(int statusCode, string? message = null)
     {
         public int StatusCode { get; } = (int)statusCode;
-        public string Message { get; } = message ?? GetDefaultMessageForStatusCode(statusCode);
+        public string Message { get; } = message ?? GetDefaultMessageForStatusCode((HttpStatusCode)statusCode);
         private static string GetDefaultMessageForStatusCode(HttpStatusCode statusCode)
         {
             return statusCode switch
