@@ -3,8 +3,6 @@ using eCommerceClean.Application.Features.ProductDto.Create;
 using eCommerceClean.Application.Features.ProductDto.Get;
 using eCommerceClean.Application.Features.ProductDto.GetAll;
 using eCommerceClean.Application.Features.ProductTypeDto.GetAll;
-using eCommerceClean.Application.Features.ToDo.Create;
-using eCommerceClean.Application.Features.ToDo.Get;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

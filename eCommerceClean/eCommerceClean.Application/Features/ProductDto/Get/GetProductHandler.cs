@@ -10,7 +10,7 @@ namespace eCommerceClean.Application.Features.ProductDto.Get
     {
         public async Task<ServiceResponse<GetProduct>> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            var item = await context.Products
+            var item = await context.Products.AsNoTracking()
                 // todo: (when large data sets) remove following 2 Include to simplify the sql query
                 // instead, automap the ids in AutoMapperProfile,
                 // frontend will use separate query to get types and maps it with product.
