@@ -27,6 +27,8 @@ if (app.Environment.IsDevelopment())
     await app.ApplyMigrations();
 }
 
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
