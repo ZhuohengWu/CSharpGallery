@@ -19,6 +19,20 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+//app.Use(async (context, next) =>
+//{
+//    if (context.Request.Path.StartsWithSegments("/swagger") ||
+//        context.Request.Path.StartsWithSegments("/swagger/index.html") ||
+//        context.Request.Path.StartsWithSegments("/swagger/v1/swagger.json"))
+//    {
+//        await next();
+//        return;
+//    }
+//    await next();
+//});
+//app.UseStatusCodePagesWithReExecute("/errors/{0}", "?path={1}");
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
