@@ -1,5 +1,6 @@
 ﻿using eCommerce.Core.Entities;
 using eCommerce.Core.Interfaces;
+using eCommerce.Core.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,8 @@ namespace eCommerce.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            var products = await productRepo.ListAllAsync();
+            var spec = new ProductWithTypesAndBrandsSpec();
+            var products = await productRepo.ListAsync(spec);
             return Ok(products);
         }
 
@@ -26,7 +28,8 @@ namespace eCommerce.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
-            return Ok(await productRepo.GetByIdAsync(id));
+            var spec = new ProductWithTypesAndBrandsSpec(id);
+            return Ok(await productRepo.GetEntityWithSpec(spec));
         }
 
         // POST api/<ProductsController>
