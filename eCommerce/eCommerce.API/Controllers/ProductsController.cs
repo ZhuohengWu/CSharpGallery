@@ -11,12 +11,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class ProductsController(IGenericRepository<Product> productRepo, 
                                     IGenericRepository<ProductBrand> productBrandRepo,
                                     IGenericRepository<ProductType> productTypeRepo,
-                                    IMapper mapper) : ControllerBase
+                                    IMapper mapper) : BaseApiController
     {
         // GET: api/<ProductsController>
         [HttpGet]
