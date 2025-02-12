@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class ProductRepository(StoreContext _context) : IProductRepository
+    public class ProductRepository(StoreContext context) : IProductRepository
     {
         public async Task<IReadOnlyList<Product>> GetAllAsync()
         {
-            return await _context.Products
+            return await context.Products
                 .Include(p =>p.ProductBrand)
                 .Include(p =>p.ProductType)
                 .ToListAsync();
@@ -21,7 +21,7 @@ namespace Infrastructure.Data
 
         public async Task<Product> GetAsync(int id)
         {
-            return await _context.Products
+            return await context.Products
                 .Include(p => p.ProductBrand)
                 .Include(p => p.ProductType)
                 .FirstOrDefaultAsync(p => p.Id == id) ?? new();
@@ -29,12 +29,12 @@ namespace Infrastructure.Data
 
         public async Task<IReadOnlyList<ProductBrand>> GetBrandsAsync()
         {
-            return await _context.ProductBrands.ToListAsync();
+            return await context.ProductBrands.ToListAsync();
         }
 
         public async Task<IReadOnlyList<ProductType>> GetTypesAsync()
         {
-            return await _context.ProductTypes.ToListAsync();
+            return await context.ProductTypes.ToListAsync();
 
         }
     }

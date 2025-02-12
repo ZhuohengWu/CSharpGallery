@@ -1,4 +1,5 @@
-﻿using eCommerce.Core.Interfaces;
+﻿using eCommerce.Core.Entities;
+using eCommerce.Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +10,15 @@ namespace eCommerce.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController(IProductRepository ProductRepo) : ControllerBase
+    public class ProductsController(IGenericRepository<Product> productRepo, 
+                                    IGenericRepository<ProductBrand> productBrandRepo,
+                                    IGenericRepository<ProductType> productTypeRepo) : ControllerBase
     {
         // GET: api/<ProductsController>
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            var products = await ProductRepo.GetAllAsync();
+            var products = await productRepo.ListAllAsync();
             return Ok(products);
         }
 
@@ -23,7 +26,7 @@ namespace eCommerce.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
-            return Ok(await ProductRepo.GetAsync(id));
+            return Ok(await productRepo.GetByIdAsync(id));
         }
 
         // POST api/<ProductsController>
@@ -47,14 +50,14 @@ namespace eCommerce.API.Controllers
         [HttpGet("brands")]
         public async Task<ActionResult> GetAllBrands()
         {
-            var brands = await ProductRepo.GetBrandsAsync();
+            var brands = await productBrandRepo.ListAllAsync();
             return Ok(brands);
         }
 
         [HttpGet("types")]
         public async Task<ActionResult> GetAllTypes()
         {
-            var types = await ProductRepo.GetTypesAsync();
+            var types = await productTypeRepo.ListAllAsync();
             return Ok(types);
         }
     }
