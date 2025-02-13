@@ -1,5 +1,6 @@
 using eCommerce.API.Extensions;
 using eCommerce.API.Helpers;
+using eCommerce.API.Middleware;
 using eCommerce.Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 //app.Use(async (context, next) =>
 //{

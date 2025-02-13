@@ -4,15 +4,16 @@ namespace eCommerce.API.Errors;
 
 public class ApiResponse
 {
-    public ApiResponse(HttpStatusCode statusCode, string? message = null)
-    {
-        StatusCode = (int)statusCode;
-        Message = message ?? GetDefaultMessageForStatusCode(statusCode);
-    }
     public ApiResponse(int statusCode, string? message)
     {
         StatusCode = statusCode;
         Message = message ?? GetDefaultMessageForStatusCode((HttpStatusCode)statusCode);
+    }
+
+    public ApiResponse(HttpStatusCode statusCode, string? message = null)
+    {
+        StatusCode = (int)statusCode;
+        Message = message ?? GetDefaultMessageForStatusCode(statusCode);
     }
 
     public int StatusCode { get; }
