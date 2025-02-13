@@ -7,8 +7,8 @@ public static class ServiceContainer
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
         services.AddControllers();
-        services.AddExceptionHandler<GlobalExceptionHandler>();
-        services.AddProblemDetails();
+        //services.AddExceptionHandler<GlobalExceptionHandler>();
+        //services.AddProblemDetails();
         return services;
     }
 

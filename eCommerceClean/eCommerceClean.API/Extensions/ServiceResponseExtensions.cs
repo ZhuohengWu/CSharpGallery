@@ -26,7 +26,10 @@ namespace eCommerceClean.API.Extensions
             //    statusCode = HttpStatusCode.NoContent;
             //}
 
-            return new ObjectResult(new ApiResponse(statusCode, serviceResponse.Message));
+            return new ObjectResult(new ApiResponse(statusCode, serviceResponse.Message))
+            {
+                StatusCode = (int)statusCode
+            };
         }
 
         public static HttpStatusCode ToHttpStatus(this ResponseCode responseCode)
