@@ -12,11 +12,11 @@ namespace eCommerceClean.Application.Features.ProductDto.Create
         {
             var mapDto = mapper.Map<Product>(request.CreateProduct);
             if (mapDto == null)
-                return ServiceResponse<int>.Failure("Invalid request");
+                return ServiceResponse<int>.Failure(ResponseCode.BadRequest, "Invalid request");
 
             context.Products.Add(mapDto);
             await context.SaveChangesAsync(cancellationToken);
-            return ServiceResponse<int>.Success(default, "Task created");
+            return ServiceResponse<int>.Success(default, "Product created");
         }
     }
 }

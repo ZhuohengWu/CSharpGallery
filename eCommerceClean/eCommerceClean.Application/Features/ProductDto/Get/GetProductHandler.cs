@@ -18,10 +18,10 @@ namespace eCommerceClean.Application.Features.ProductDto.Get
                 .Include(p => p.ProductType)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (item == null)
-                return ServiceResponse<GetProduct>.Failure("No Task found");
+                return ServiceResponse<GetProduct>.Failure(ResponseCode.NotFound, "No Product found");
 
-            var mapResponse = mapper.Map<GetProduct>(item);
-            return ServiceResponse<GetProduct>.Success(mapResponse, "Task found");
+            var result = mapper.Map<GetProduct>(item);
+            return ServiceResponse<GetProduct>.Success(result, "Product found");
         }
     }
 }

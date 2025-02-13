@@ -17,13 +17,13 @@ namespace eCommerceClean.Application.Features.ProductBrandDto.GetAll
     {
         public async Task<ServiceResponse<IEnumerable<GetAllProductBrand>>> Handle(GetAllProductBrandQuery request, CancellationToken cancellationToken)
         {
-            var getTasks = await context.ProductBrands
+            var results = await context.ProductBrands
                 .ProjectTo<GetAllProductBrand>(mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return getTasks.Count > 0
-                ? ServiceResponse<IEnumerable<GetAllProductBrand>>.Success(getTasks, "Tasks found")
-                : new ServiceResponse<IEnumerable<GetAllProductBrand>>([], true, "Null");
+            return results is not null && results.Count > 0
+                ? ServiceResponse<IEnumerable<GetAllProductBrand>>.Success(results, "Product brands found")
+                : new ServiceResponse<IEnumerable<GetAllProductBrand>>(Enumerable.Empty<GetAllProductBrand>(), true, ResponseCode.Success, "No product brands found");
         }
     }
 }

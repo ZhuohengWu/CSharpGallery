@@ -11,15 +11,15 @@ namespace eCommerceClean.Application.Features.ProductDto.GetAll
     {
         public async Task<ServiceResponse<IEnumerable<GetProduct>>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
         {
-            var entities = await context.Products
+            var items = await context.Products
                 .AsNoTracking().Include(p => p.ProductBrand).Include(p => p.ProductType)
                 .ToListAsync(cancellationToken);
 
-            var getTasks = mapper.Map<IEnumerable<GetProduct>>(entities);
+            var results = mapper.Map<IEnumerable<GetProduct>>(items);
 
-            return getTasks.Count() > 0
-                ? ServiceResponse<IEnumerable<GetProduct>>.Success(getTasks, "Tasks found")
-                : new ServiceResponse<IEnumerable<GetProduct>>([], true, "Null");
+            return results.Count() > 0
+                ? ServiceResponse<IEnumerable<GetProduct>>.Success(results, "Products found")
+                : new ServiceResponse<IEnumerable<GetProduct>>(Enumerable.Empty<GetProduct>(), true, ResponseCode.Success, "No Products found");
         }
     }
 }

@@ -11,13 +11,13 @@ namespace eCommerceClean.Application.Features.ProductTypeDto.GetAll
     {
         public async Task<ServiceResponse<IEnumerable<GetAllProductType>>> Handle(GetAllProductTypeQuery request, CancellationToken cancellationToken)
         {
-            var getTasks = await context.ProductTypes
+            var results = await context.ProductTypes
                 .ProjectTo<GetAllProductType>(mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return getTasks.Count > 0
-                ? ServiceResponse<IEnumerable<GetAllProductType>>.Success(getTasks, "Tasks found")
-                : new ServiceResponse<IEnumerable<GetAllProductType>>([], true, "Null");
+            return results is not null && results.Count > 0
+                ? ServiceResponse<IEnumerable<GetAllProductType>>.Success(results, "Product types found")
+                : new ServiceResponse<IEnumerable<GetAllProductType>>(Enumerable.Empty<GetAllProductType>(), true, ResponseCode.Success, "No product types found");
         }
     }
 }
