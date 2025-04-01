@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\ProductDto\Create\" />
+    <Folder Include="Features\ProductDto\Delete\" />
+    <Folder Include="Features\ProductDto\Get\" />
+    <Folder Include="Features\ProductDto\GetAll\" />
+    <Folder Include="Features\ProductDto\Update\" />
+  </ItemGroup>
+
+</Project>
