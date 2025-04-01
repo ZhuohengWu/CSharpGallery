@@ -1,12 +1,15 @@
 using SwiftShop.Application.Commons.Data;
 using SwiftShop.Infrastructure.DependencyInjection;
 using SwiftShop.Infrastructure.Persistence;
+using SwiftShop.Presentation.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services
+    .AddPresentation()
+    .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddScoped<ISwiftShopDbContext, SwiftShopDbContext>();
 
@@ -17,6 +20,8 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
+
+app.UsePresentation();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

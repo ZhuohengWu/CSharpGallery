@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ProductService } from '../services/product.service';
+import { Product } from '../models/product';
 
 @Component({
   selector: 'app-products',
@@ -7,10 +9,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
-export class ProductsComponent {
-  products = [
-    { id: 1, name: 'Product 1', price: 10 },
-    { id: 2, name: 'Product 2', price: 20 },
-    { id: 3, name: 'Product 3', price: 30 }
-  ];
+export class ProductsComponent implements OnInit {
+  products: Product[] = [];
+  private productService = inject(ProductService);
+
+  ngOnInit() {
+    this.productService.getProducts().subscribe(data => {
+      this.products = data;
+    });
+  }
 }

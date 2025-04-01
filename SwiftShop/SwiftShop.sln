@@ -5,19 +5,19 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{23420792-1028-4BE9-A22C-CB222FCAA1D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftShop.Domain", "SwiftShop.Domain\SwiftShop.Domain.csproj", "{D9D5872B-6E69-4734-A472-2088F7F7E186}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftShop.Domain", "SwiftShop.Domain\SwiftShop.Domain.csproj", "{D9D5872B-6E69-4734-A472-2088F7F7E186}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{A659CAB0-BF0B-4280-A314-C6497AA05885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftShop.Application", "SwiftShop.Application\SwiftShop.Application.csproj", "{631B80F3-2B51-4F91-AEF8-062D67D5A548}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftShop.Application", "SwiftShop.Application\SwiftShop.Application.csproj", "{631B80F3-2B51-4F91-AEF8-062D67D5A548}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F83B837D-5C54-4C82-8AE4-621F27D23DBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftShop.Infrastructure", "SwiftShop.Infrastructure\SwiftShop.Infrastructure.csproj", "{1F98C8D8-E3CF-4013-AE6E-6B4E9673565D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftShop.Infrastructure", "SwiftShop.Infrastructure\SwiftShop.Infrastructure.csproj", "{1F98C8D8-E3CF-4013-AE6E-6B4E9673565D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{621267AF-6D45-4114-A54B-1A4FD599AC7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftShop.Presentation", "SwiftShop.Presentation\SwiftShop.Presentation.csproj", "{D0465E4B-1876-4D7A-8757-D9DA4086E2C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftShop.Presentation", "SwiftShop.Presentation\SwiftShop.Presentation.csproj", "{D0465E4B-1876-4D7A-8757-D9DA4086E2C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
