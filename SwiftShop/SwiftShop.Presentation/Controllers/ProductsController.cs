@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SwiftShop.Application.Commons.Data;
+using SwiftShop.Domain.Entities;
+using SwiftShop.Infrastructure.Persistence;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,13 +10,14 @@ namespace SwiftShop.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController(ISwiftShopDbContext context) : ControllerBase
     {
         // GET: api/<ProductsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var products = await context.Products.ToListAsync();
+            return Ok(products);
         }
 
         // GET api/<ProductsController>/5
