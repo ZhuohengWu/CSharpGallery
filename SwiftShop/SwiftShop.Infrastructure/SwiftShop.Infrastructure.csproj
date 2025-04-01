@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SwiftShop.Application\SwiftShop.Application.csproj" />
+  </ItemGroup>
+
 </Project>

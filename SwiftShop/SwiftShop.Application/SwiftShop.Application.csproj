@@ -14,4 +14,8 @@
     <Folder Include="Features\ProductDto\Update\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SwiftShop.Domain\SwiftShop.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
