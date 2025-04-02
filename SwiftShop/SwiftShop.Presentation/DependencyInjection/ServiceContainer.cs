@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SwiftShop.Infrastructure.Persistence;
 
@@ -6,20 +8,21 @@ namespace SwiftShop.Presentation.DependencyInjection
 {
     public static class ServiceContainer
     {
-        public static IServiceCollection AddPresentation(this IServiceCollection services)
+        public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCorsPolicy();
+            services.AddCorsPolicy(configuration);
 
             return services;
         }
-        private static IServiceCollection AddCorsPolicy(this IServiceCollection services)
+        private static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
         {
+            var allowedOrigins = configuration.GetValue<string>("AllowedOrigins").Split(',');
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAngularApp",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:4200") 
+                        policy.WithOrigins(allowedOrigins) 
                               .AllowAnyMethod()
                               .AllowAnyHeader();
                     });
