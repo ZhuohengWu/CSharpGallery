@@ -22,7 +22,14 @@ namespace SwiftShop.Infrastructure.Persistence
 
             var optionsBuilder = new DbContextOptionsBuilder<SwiftShopDbContext>();
 
-            var connectionString = configuration.GetConnectionString("SwiftShopAppSqlServer");
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
+            Console.WriteLine($"Db Factory Running in environment: {environment}");
+
+            string? connectionString = environment == "Production"
+                ? configuration.GetConnectionString("SwiftShopAppAzureSQLServer")
+                : configuration.GetConnectionString("SwiftShopAppSqlServer");
+
             optionsBuilder.UseSqlServer(connectionString);
 
             return new SwiftShopDbContext(optionsBuilder.Options);

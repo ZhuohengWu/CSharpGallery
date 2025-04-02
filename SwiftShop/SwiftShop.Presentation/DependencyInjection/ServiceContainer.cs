@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using SwiftShop.Infrastructure.Persistence;
 
 namespace SwiftShop.Presentation.DependencyInjection
 {
@@ -29,6 +31,22 @@ namespace SwiftShop.Presentation.DependencyInjection
         public static IApplicationBuilder UsePresentation(this IApplicationBuilder app)
         {
             app.UseCors("AllowAngularApp");
+
+            return app;
+        }
+
+        private static IApplicationBuilder ApplyDbMigration(this WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<SwiftShopDbContext>();
+
+                var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
+                if (env.IsProduction())
+                {
+                    dbContext.Database.Migrate();
+                }
+            }
 
             return app;
         }

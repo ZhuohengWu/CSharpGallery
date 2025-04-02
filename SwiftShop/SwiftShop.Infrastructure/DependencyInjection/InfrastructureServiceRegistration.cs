@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SwiftShop.Application.Commons.Data;
 using SwiftShop.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,17 @@ namespace SwiftShop.Infrastructure.DependencyInjection
 {
     public static class InfrastructureServiceRegistration
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
-            => services.AddDatabase(config);
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config, string envName)
+            => services.AddDatabase(config, envName);
 
-        private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration, string environmentName)
         {
-            string? connectionString = configuration.GetConnectionString("SwiftShopAppSqlServer");
+            string? connectionString = environmentName == "Production"
+                ? configuration.GetConnectionString("SwiftShopAppAzureSQLServer")
+                : configuration.GetConnectionString("SwiftShopAppSqlServer");
+
             services.AddDbContext<SwiftShopDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddScoped<SwiftShopDbContext>(sp => sp.GetRequiredService<SwiftShopDbContext>());
+            services.AddScoped<ISwiftShopDbContext>(sp => sp.GetRequiredService<SwiftShopDbContext>());
             return services;
         }
     }

@@ -7,3 +7,6 @@
 # Visual Studio working files
 **/.vs/
 /CleanArchitecture/Clean.API/logs
+
+# Ignore publish profiles
+**/Properties/PublishProfiles/
