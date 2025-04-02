@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
 import { Product } from '../../../models/products.model';
+import { CartService } from '../../../services/cart.service';
 import { PrimaryButtonComponent } from "../../../primary-button/primary-button.component";
 
 @Component({
@@ -9,5 +10,6 @@ import { PrimaryButtonComponent } from "../../../primary-button/primary-button.c
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent {
+  cartService = inject(CartService);
   product = input.required<Product>();
 }
