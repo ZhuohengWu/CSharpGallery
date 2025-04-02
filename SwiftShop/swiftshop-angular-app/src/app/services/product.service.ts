@@ -7,7 +7,7 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'https://localhost:7036/api/products'; 
+  private apiUrl = 'https://swiftshopapi.azurewebsites.net/api/products'; 
 
   private http = inject(HttpClient);
 
