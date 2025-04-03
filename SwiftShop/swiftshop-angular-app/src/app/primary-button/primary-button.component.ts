@@ -7,7 +7,7 @@ import { Component, input, output } from '@angular/core';
   styleUrl: './primary-button.component.scss'
 })
 export class PrimaryButtonComponent {
-  label = input('k');
+  label = input('');
 
   btnClicked = output();
 

@@ -1,5 +1,5 @@
 <div class="bg-slate-100 px-4 py-3 shadow-md flex justify-between items-center">
-    <span class="text-xl">{{title()}}</span>
-    <app-primary-button label="Cart" (btnClicked)="showCartClicked()" 
+    <button class="text-xl" routerLink="/">{{title()}}</button>
+    <app-primary-button label="Cart" routerLink="/cart"
         [label]="'Cart(' + cartService.cart().length + ')'"/>
 </div>
