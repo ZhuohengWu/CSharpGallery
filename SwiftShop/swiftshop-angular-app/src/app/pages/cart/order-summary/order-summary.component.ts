@@ -1,6 +1,6 @@
 import { Component, computed,inject } from '@angular/core';
 import { CartService } from '../../../services/cart.service';
-import { PrimaryButtonComponent } from "../../../primary-button/primary-button.component";
+import { PrimaryButtonComponent } from "../../../shared-components/primary-button/primary-button.component";
 
 @Component({
   selector: 'app-order-summary',

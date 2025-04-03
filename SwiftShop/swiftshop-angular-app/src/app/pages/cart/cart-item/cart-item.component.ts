@@ -1,6 +1,6 @@
 import { Component, input, inject } from '@angular/core';
 import { Product } from '../../../models/products.model';
-import { ButtonComponent } from "../../../button/button.component";
+import { ButtonComponent } from "../../../shared-components/button/button.component";
 import { CartService } from '../../../services/cart.service';
 
 @Component({
